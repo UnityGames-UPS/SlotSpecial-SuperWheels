@@ -1,0 +1,793 @@
+fileFormatVersion: 2
+guid: 340d2c7ac3116480f8c95751efcbc994
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 6386008770147797251
+    second: Super_Wheel_UI_Other_Payline_0
+  - first:
+      213: -8265677875274584702
+    second: Super_Wheel_UI_Other_Payline_1
+  - first:
+      213: 4532872596243960171
+    second: Super_Wheel_UI_Other_Payline_2
+  - first:
+      213: -4042053519502409539
+    second: Super_Wheel_UI_Other_Payline_3
+  - first:
+      213: 3938306126877982936
+    second: Super_Wheel_UI_Other_Payline_4
+  - first:
+      213: 3436009798848115880
+    second: Super_Wheel_UI_Other_Payline_5
+  - first:
+      213: -1833716136573825644
+    second: Super_Wheel_UI_Other_Payline_6
+  - first:
+      213: 8668893451445231313
+    second: Super_Wheel_UI_Other_Payline_7
+  - first:
+      213: -4919638737265688166
+    second: Super_Wheel_UI_Other_Payline_8
+  - first:
+      213: -5143094945339935029
+    second: Super_Wheel_UI_Other_Payline_9
+  - first:
+      213: 2735193756884792492
+    second: Super_Wheel_UI_Other_Payline_10
+  - first:
+      213: 7878478217796990811
+    second: Super_Wheel_UI_Other_Payline_11
+  - first:
+      213: -5704349370377074442
+    second: Super_Wheel_UI_Other_Payline_12
+  - first:
+      213: 3584353129228029522
+    second: Super_Wheel_UI_Other_Payline_13
+  - first:
+      213: -4163856807213778549
+    second: Super_Wheel_UI_Other_Payline_14
+  - first:
+      213: 7869488861539861122
+    second: Super_Wheel_UI_Other_Payline_15
+  - first:
+      213: -6780974367350756822
+    second: Super_Wheel_UI_Other_Payline_16
+  - first:
+      213: -2479630913093543056
+    second: Super_Wheel_UI_Other_Payline_17
+  - first:
+      213: -4913487511700893943
+    second: Super_Wheel_UI_Other_Payline_18
+  - first:
+      213: 6150384488120909325
+    second: Super_Wheel_UI_Other_Payline_19
+  - first:
+      213: -2323919314059817363
+    second: Super_Wheel_UI_Other_Payline_20
+  - first:
+      213: -350648639287732063
+    second: Super_Wheel_UI_Other_Payline_21
+  - first:
+      213: -7442369641924992772
+    second: Super_Wheel_UI_Other_Payline_22
+  - first:
+      213: -7891915208393171942
+    second: Super_Wheel_UI_Other_Payline_23
+  - first:
+      213: -8184695587640652930
+    second: Super_Wheel_UI_Other_Payline_24
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Super_Wheel_UI_Other_Payline_0
+      rect:
+        serializedVersion: 2
+        x: 121
+        y: 1110
+        width: 620
+        height: 376
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 30940355429af9850800000000000000
+      internalID: 6386008770147797251
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Super_Wheel_UI_Other_Payline_1
+      rect:
+        serializedVersion: 2
+        x: 889
+        y: 1110
+        width: 620
+        height: 376
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 28de37014c96a4d80800000000000000
+      internalID: -8265677875274584702
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Super_Wheel_UI_Other_Payline_2
+      rect:
+        serializedVersion: 2
+        x: 1656
+        y: 1110
+        width: 620
+        height: 376
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b61593f2c9ff7ee30800000000000000
+      internalID: 4532872596243960171
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Super_Wheel_UI_Other_Payline_3
+      rect:
+        serializedVersion: 2
+        x: 2424
+        y: 1110
+        width: 620
+        height: 376
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: db001fe5dbdb7e7c0800000000000000
+      internalID: -4042053519502409539
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Super_Wheel_UI_Other_Payline_4
+      rect:
+        serializedVersion: 2
+        x: 3192
+        y: 1110
+        width: 620
+        height: 376
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8d08e4d6e8ca7a630800000000000000
+      internalID: 3938306126877982936
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Super_Wheel_UI_Other_Payline_5
+      rect:
+        serializedVersion: 2
+        x: 3960
+        y: 1110
+        width: 620
+        height: 376
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8a47a1115b82faf20800000000000000
+      internalID: 3436009798848115880
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Super_Wheel_UI_Other_Payline_6
+      rect:
+        serializedVersion: 2
+        x: 4728
+        y: 1110
+        width: 620
+        height: 376
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 49d8d94a3e45d86e0800000000000000
+      internalID: -1833716136573825644
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Super_Wheel_UI_Other_Payline_7
+      rect:
+        serializedVersion: 2
+        x: 5495
+        y: 1110
+        width: 620
+        height: 376
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1de5a111aa81e4870800000000000000
+      internalID: 8668893451445231313
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Super_Wheel_UI_Other_Payline_8
+      rect:
+        serializedVersion: 2
+        x: 6263
+        y: 1110
+        width: 620
+        height: 376
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a91070242aee9bbb0800000000000000
+      internalID: -4919638737265688166
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Super_Wheel_UI_Other_Payline_9
+      rect:
+        serializedVersion: 2
+        x: 7031
+        y: 1110
+        width: 620
+        height: 376
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bc6f7e0856e00a8b0800000000000000
+      internalID: -5143094945339935029
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Super_Wheel_UI_Other_Payline_10
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 620
+        width: 620
+        height: 376
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ca4fbfeea3c55f520800000000000000
+      internalID: 2735193756884792492
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Super_Wheel_UI_Other_Payline_11
+      rect:
+        serializedVersion: 2
+        x: 889
+        y: 620
+        width: 620
+        height: 376
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b573176723af55d60800000000000000
+      internalID: 7878478217796990811
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Super_Wheel_UI_Other_Payline_12
+      rect:
+        serializedVersion: 2
+        x: 1657
+        y: 620
+        width: 620
+        height: 376
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6f883f7787416d0b0800000000000000
+      internalID: -5704349370377074442
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Super_Wheel_UI_Other_Payline_13
+      rect:
+        serializedVersion: 2
+        x: 2425
+        y: 620
+        width: 620
+        height: 376
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 25e42392e2e2eb130800000000000000
+      internalID: 3584353129228029522
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Super_Wheel_UI_Other_Payline_14
+      rect:
+        serializedVersion: 2
+        x: 3193
+        y: 620
+        width: 620
+        height: 376
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b893e6e7b420736c0800000000000000
+      internalID: -4163856807213778549
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Super_Wheel_UI_Other_Payline_15
+      rect:
+        serializedVersion: 2
+        x: 3962
+        y: 620
+        width: 620
+        height: 376
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2820afbdc6a063d60800000000000000
+      internalID: 7869488861539861122
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Super_Wheel_UI_Other_Payline_16
+      rect:
+        serializedVersion: 2
+        x: 4730
+        y: 620
+        width: 620
+        height: 376
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a2a67037db325e1a0800000000000000
+      internalID: -6780974367350756822
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Super_Wheel_UI_Other_Payline_17
+      rect:
+        serializedVersion: 2
+        x: 5498
+        y: 620
+        width: 620
+        height: 376
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 07b5bfa72d4969dd0800000000000000
+      internalID: -2479630913093543056
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Super_Wheel_UI_Other_Payline_18
+      rect:
+        serializedVersion: 2
+        x: 6266
+        y: 620
+        width: 620
+        height: 376
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 90f00c01429cfcbb0800000000000000
+      internalID: -4913487511700893943
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Super_Wheel_UI_Other_Payline_19
+      rect:
+        serializedVersion: 2
+        x: 7035
+        y: 620
+        width: 620
+        height: 376
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d0ef4861b1e8a5550800000000000000
+      internalID: 6150384488120909325
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Super_Wheel_UI_Other_Payline_20
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 129
+        width: 620
+        height: 377
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d6e8bce42b7cfbfd0800000000000000
+      internalID: -2323919314059817363
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Super_Wheel_UI_Other_Payline_21
+      rect:
+        serializedVersion: 2
+        x: 889
+        y: 129
+        width: 620
+        height: 377
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1a8d74e9bee322bf0800000000000000
+      internalID: -350648639287732063
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Super_Wheel_UI_Other_Payline_22
+      rect:
+        serializedVersion: 2
+        x: 1658
+        y: 129
+        width: 620
+        height: 377
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cf0e8e5fd3467b890800000000000000
+      internalID: -7442369641924992772
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Super_Wheel_UI_Other_Payline_23
+      rect:
+        serializedVersion: 2
+        x: 2427
+        y: 129
+        width: 620
+        height: 377
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a1cd83e5ee84a7290800000000000000
+      internalID: -7891915208393171942
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Super_Wheel_UI_Other_Payline_24
+      rect:
+        serializedVersion: 2
+        x: 3196
+        y: 129
+        width: 620
+        height: 377
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e7bc8f73abe1a6e80800000000000000
+      internalID: -8184695587640652930
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Super_Wheel_UI_Other_Payline_0: 6386008770147797251
+      Super_Wheel_UI_Other_Payline_1: -8265677875274584702
+      Super_Wheel_UI_Other_Payline_10: 2735193756884792492
+      Super_Wheel_UI_Other_Payline_11: 7878478217796990811
+      Super_Wheel_UI_Other_Payline_12: -5704349370377074442
+      Super_Wheel_UI_Other_Payline_13: 3584353129228029522
+      Super_Wheel_UI_Other_Payline_14: -4163856807213778549
+      Super_Wheel_UI_Other_Payline_15: 7869488861539861122
+      Super_Wheel_UI_Other_Payline_16: -6780974367350756822
+      Super_Wheel_UI_Other_Payline_17: -2479630913093543056
+      Super_Wheel_UI_Other_Payline_18: -4913487511700893943
+      Super_Wheel_UI_Other_Payline_19: 6150384488120909325
+      Super_Wheel_UI_Other_Payline_2: 4532872596243960171
+      Super_Wheel_UI_Other_Payline_20: -2323919314059817363
+      Super_Wheel_UI_Other_Payline_21: -350648639287732063
+      Super_Wheel_UI_Other_Payline_22: -7442369641924992772
+      Super_Wheel_UI_Other_Payline_23: -7891915208393171942
+      Super_Wheel_UI_Other_Payline_24: -8184695587640652930
+      Super_Wheel_UI_Other_Payline_3: -4042053519502409539
+      Super_Wheel_UI_Other_Payline_4: 3938306126877982936
+      Super_Wheel_UI_Other_Payline_5: 3436009798848115880
+      Super_Wheel_UI_Other_Payline_6: -1833716136573825644
+      Super_Wheel_UI_Other_Payline_7: 8668893451445231313
+      Super_Wheel_UI_Other_Payline_8: -4919638737265688166
+      Super_Wheel_UI_Other_Payline_9: -5143094945339935029
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

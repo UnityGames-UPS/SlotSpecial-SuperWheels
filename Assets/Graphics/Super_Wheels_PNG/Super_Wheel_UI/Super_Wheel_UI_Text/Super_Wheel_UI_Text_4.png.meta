@@ -1,0 +1,481 @@
+fileFormatVersion: 2
+guid: 93e777befc5e149aaa17f66d668a4b9e
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -2954131970612262203
+    second: Super_Wheel_UI_Text_4_0
+  - first:
+      213: 3173937834546400897
+    second: Super_Wheel_UI_Text_4_1
+  - first:
+      213: -3725300665519329233
+    second: Super_Wheel_UI_Text_4_2
+  - first:
+      213: 2790202510856580157
+    second: Super_Wheel_UI_Text_4_3
+  - first:
+      213: -276890219847974281
+    second: Super_Wheel_UI_Text_4_4
+  - first:
+      213: 366382428000565089
+    second: Super_Wheel_UI_Text_4_5
+  - first:
+      213: 750762829808750622
+    second: Super_Wheel_UI_Text_4_6
+  - first:
+      213: -3018649482847281052
+    second: Super_Wheel_UI_Text_4_7
+  - first:
+      213: 1046389753951855446
+    second: Super_Wheel_UI_Text_4_8
+  - first:
+      213: -8776542657019252516
+    second: Super_Wheel_UI_Text_4_9
+  - first:
+      213: 1041387470306053366
+    second: Super_Wheel_UI_Text_4_10
+  - first:
+      213: -824467948075616789
+    second: Super_Wheel_UI_Text_4_11
+  - first:
+      213: 6592073649088743039
+    second: Super_Wheel_UI_Text_4_12
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Super_Wheel_UI_Text_4_0
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 47
+        width: 76
+        height: 148
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5ca0808df90d007d0800000000000000
+      internalID: -2954131970612262203
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Super_Wheel_UI_Text_4_1
+      rect:
+        serializedVersion: 2
+        x: 171
+        y: 47
+        width: 105
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 18e8f4fe4a71c0c20800000000000000
+      internalID: 3173937834546400897
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Super_Wheel_UI_Text_4_2
+      rect:
+        serializedVersion: 2
+        x: 309
+        y: 45
+        width: 106
+        height: 152
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f20b13e38c21d4cc0800000000000000
+      internalID: -3725300665519329233
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Super_Wheel_UI_Text_4_3
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 47
+        width: 114
+        height: 148
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d3c6207866ac8b620800000000000000
+      internalID: 2790202510856580157
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Super_Wheel_UI_Text_4_4
+      rect:
+        serializedVersion: 2
+        x: 590
+        y: 45
+        width: 106
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7728e24efc9482cf0800000000000000
+      internalID: -276890219847974281
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Super_Wheel_UI_Text_4_5
+      rect:
+        serializedVersion: 2
+        x: 729
+        y: 45
+        width: 112
+        height: 152
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1673be880e6a51500800000000000000
+      internalID: 366382428000565089
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Super_Wheel_UI_Text_4_6
+      rect:
+        serializedVersion: 2
+        x: 872
+        y: 47
+        width: 105
+        height: 148
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e105155e0de3b6a00800000000000000
+      internalID: 750762829808750622
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Super_Wheel_UI_Text_4_7
+      rect:
+        serializedVersion: 2
+        x: 1009
+        y: 45
+        width: 111
+        height: 152
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 460a871f94a9b16d0800000000000000
+      internalID: -3018649482847281052
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Super_Wheel_UI_Text_4_8
+      rect:
+        serializedVersion: 2
+        x: 1149
+        y: 45
+        width: 110
+        height: 152
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 653a8ecefe5858e00800000000000000
+      internalID: 1046389753951855446
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Super_Wheel_UI_Text_4_9
+      rect:
+        serializedVersion: 2
+        x: 1289
+        y: 45
+        width: 110
+        height: 152
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cd0fd4c14f4733680800000000000000
+      internalID: -8776542657019252516
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Super_Wheel_UI_Text_4_10
+      rect:
+        serializedVersion: 2
+        x: 1420
+        y: 47
+        width: 139
+        height: 153
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6fc82210360c37e00800000000000000
+      internalID: 1041387470306053366
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Super_Wheel_UI_Text_4_11
+      rect:
+        serializedVersion: 2
+        x: 1570
+        y: 24
+        width: 69
+        height: 84
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: be5f14af4c6ee84f0800000000000000
+      internalID: -824467948075616789
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Super_Wheel_UI_Text_4_12
+      rect:
+        serializedVersion: 2
+        x: 1668
+        y: 45
+        width: 53
+        height: 62
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f76c52bbe00cb7b50800000000000000
+      internalID: 6592073649088743039
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Super_Wheel_UI_Text_4_0: -2954131970612262203
+      Super_Wheel_UI_Text_4_1: 3173937834546400897
+      Super_Wheel_UI_Text_4_10: 1041387470306053366
+      Super_Wheel_UI_Text_4_11: -824467948075616789
+      Super_Wheel_UI_Text_4_12: 6592073649088743039
+      Super_Wheel_UI_Text_4_2: -3725300665519329233
+      Super_Wheel_UI_Text_4_3: 2790202510856580157
+      Super_Wheel_UI_Text_4_4: -276890219847974281
+      Super_Wheel_UI_Text_4_5: 366382428000565089
+      Super_Wheel_UI_Text_4_6: 750762829808750622
+      Super_Wheel_UI_Text_4_7: -3018649482847281052
+      Super_Wheel_UI_Text_4_8: 1046389753951855446
+      Super_Wheel_UI_Text_4_9: -8776542657019252516
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
