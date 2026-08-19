@@ -30,6 +30,11 @@ public class ImageAnimation : MonoBehaviour
 		}
 	}
 
+	private void Start()
+	{
+		rendererDelegate = GetComponent<Image>();
+	}
+
 	private void OnDisable()
 	{
 		//StopAnimation();

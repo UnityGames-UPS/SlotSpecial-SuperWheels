@@ -40,8 +40,42 @@ internal class AudioController : MonoBehaviour
     private readonly Dictionary<AudioSource, bool> preFocusMuteState = new Dictionary<AudioSource, bool>();
     private bool isForceMuted = false;
 
+    private const string PrefKeyMusicVol = "audio_music_volume";
+    private const string PrefKeySfxVol = "audio_sfx_volume";
+
+    private float _musicVolume = 0.5f;
+    private float _sfxVolume = 1.0f;
+
+    internal float MusicVolume => _musicVolume;
+    internal float SfxVolume => _sfxVolume;
+
+    private void Awake()
+    {
+        _musicVolume = PlayerPrefs.GetFloat(PrefKeyMusicVol, 0.5f);
+        _sfxVolume = PlayerPrefs.GetFloat(PrefKeySfxVol, 1.0f);
+    }
+
+    internal void SetMusicVolume(float volume)
+    {
+        _musicVolume = Mathf.Clamp01(volume);
+        PlayerPrefs.SetFloat(PrefKeyMusicVol, _musicVolume);
+        PlayerPrefs.Save();
+        if (bgMusicSource) bgMusicSource.volume = _musicVolume;
+    }
+
+    internal void SetSfxVolume(float volume)
+    {
+        _sfxVolume = Mathf.Clamp01(volume);
+        PlayerPrefs.SetFloat(PrefKeySfxVol, _sfxVolume);
+        PlayerPrefs.Save();
+        if (gameSoundSource) gameSoundSource.volume = _sfxVolume;
+    }
+
     private void Start()
     {
+        if (bgMusicSource) bgMusicSource.volume = _musicVolume;
+        if (gameSoundSource) gameSoundSource.volume = _sfxVolume;
+
         // if (SoundButton)
         // {
         //     SoundButton.onClick.RemoveAllListeners();

@@ -1,10 +1,18 @@
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using System;
 using System.Collections;
 
 public class OrientationChange : MonoBehaviour
 {
+  public enum OrientationMode
+  {
+    Landscape,
+    DesktopPortrait,
+    MobilePortrait
+  }
+
   [SerializeField] private RectTransform UIWrapper;
   [SerializeField] private CanvasScaler CanvasScaler;
 
@@ -25,6 +33,12 @@ public class OrientationChange : MonoBehaviour
   // read world-space transform positions (e.g. WheelSpinController) can wait for it to settle
   // instead of capturing a mid-transition value.
   public static bool IsTransitioning { get; private set; } = false;
+
+  private OrientationMode currentMode = OrientationMode.Landscape;
+  public OrientationMode CurrentMode => currentMode;
+
+  public static event Action<OrientationMode, int, int> OnOrientationChanged;
+  public event Action<OrientationMode, int, int> OnOrientationChangedInstance;
 
   private void Awake()
   {
@@ -60,6 +74,10 @@ public class OrientationChange : MonoBehaviour
   {
     isLandscape = width > height;
     IsLandscapeOrientation = isLandscape; // FIX: update static state for swipe handlers
+
+    currentMode = isLandscape
+      ? OrientationMode.Landscape
+      : (Application.isMobilePlatform ? OrientationMode.MobilePortrait : OrientationMode.DesktopPortrait);
 
     Quaternion targetRotation = isLandscape ? Quaternion.identity : Quaternion.Euler(0, 0, -90);
     if (rotationTween != null && rotationTween.IsActive()) rotationTween.Kill();
@@ -119,6 +137,9 @@ public class OrientationChange : MonoBehaviour
     }
 
     Debug.LogWarning($"Unity: Dimensions {width}x{height}, isLandscape: {isLandscape}, targetMatch calculated: {targetMatch}");
+
+    OnOrientationChanged?.Invoke(currentMode, width, height);
+    OnOrientationChangedInstance?.Invoke(currentMode, width, height);
   }
 
 #if UNITY_EDITOR

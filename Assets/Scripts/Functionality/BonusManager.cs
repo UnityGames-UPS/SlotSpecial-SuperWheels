@@ -11,7 +11,7 @@ public class BonusManager : MonoBehaviour
     [SerializeField] private CanvasGroup BlackBG;
     [SerializeField] private GameObject SlotPanel;
     [SerializeField] private GameObject BonusPanel;
-    // [SerializeField] private SpineAnimController bonusWheelAnimation;
+    [SerializeField] private SpineAnimController bonusWheelAnimation;
     [SerializeField] private GameObject WheelStartPanel;
     [SerializeField] private GameObject singleWheelInfo;
     [SerializeField] private GameObject doubleWheelInfo;
@@ -62,32 +62,32 @@ public class BonusManager : MonoBehaviour
         if (startPanelButton) startPanelButton.onClick.AddListener(() =>
         {
             WheelStartPanel.SetActive(false);
-            uIManager.SpinButton.interactable = true;
+            uIManager.SetSpinButtonInteractable(true);
         });
     }
 
     internal void IntializeBonusWheelValue()
     {
-        for (int i = 0; i < singleBonusWheelSegmentTexts.Count; i++)
-        {
-            string sliceValue = socketManager.features.cashSpinnerBonus.wheelSlices[i].ToString();
+        // for (int i = 0; i < singleBonusWheelSegmentTexts.Count; i++)
+        // {
+        //     string sliceValue = socketManager.features.cashSpinnerBonus.wheelSlices[i].ToString();
 
-            if (sliceValue != "STAR_ARROW_SLICE")
-            {
-                // Converts "1000" into "1\n0\n0\n0"
-                singleBonusWheelSegmentTexts[i].text = string.Join("\n", sliceValue.ToCharArray());
-            }
-        }
-        for (int i = 0; i < doubleBonusWheelSegmentTexts.Count; i++)
-        {
-            string sliceValue = socketManager.features.doubleCashSpinnerBonus.wheelSlices[i].ToString();
+        //     if (sliceValue != "STAR_ARROW_SLICE")
+        //     {
+        //         // Converts "1000" into "1\n0\n0\n0"
+        //         singleBonusWheelSegmentTexts[i].text = string.Join("\n", sliceValue.ToCharArray());
+        //     }
+        // }
+        // for (int i = 0; i < doubleBonusWheelSegmentTexts.Count; i++)
+        // {
+        //     string sliceValue = socketManager.features.doubleCashSpinnerBonus.wheelSlices[i].ToString();
 
-            //if (sliceValue != "STAR_ARROW_SLICE")
-            {
-                // Converts "1000" into "1\n0\n0\n0"
-                doubleBonusWheelSegmentTexts[i].text = string.Join("\n", sliceValue.ToCharArray());
-            }
-        }
+        //     //if (sliceValue != "STAR_ARROW_SLICE")
+        //     {
+        //         // Converts "1000" into "1\n0\n0\n0"
+        //         doubleBonusWheelSegmentTexts[i].text = string.Join("\n", sliceValue.ToCharArray());
+        //     }
+        // }
     }
 
     internal void BonusWheel()
@@ -104,15 +104,15 @@ public class BonusManager : MonoBehaviour
             uIManager.ToggleBonusBackground(true);
             SlotPanel.SetActive(false);
             BonusPanel.SetActive(true);
-            uIManager.SpinButton.gameObject.SetActive(true);
-            uIManager.StopSpinButton.gameObject.SetActive(false);
+            uIManager.SetSpinButtonActive(true);
+            uIManager.SetStopSpinButtonActive(false);
         });
 
         audioController.PlayBonusHit(false);
-        // bonusWheelAnimation.animName = "wheel_right";
+        //bonusWheelAnimation.animName = "wheel_right";
         yield return new WaitForSeconds(0.3f);
-        // bonusWheelAnimation.Play(false);
-        // bonusWheelAnimation.gameObject.SetActive(true);
+        //bonusWheelAnimation.Play(false);
+        bonusWheelAnimation.gameObject.SetActive(true);
 
         yield return new WaitForSeconds(1f);
 
@@ -123,28 +123,28 @@ public class BonusManager : MonoBehaviour
 
         yield return new WaitForSeconds(0.5f);
 
-        // bonusWheelAnimation.Stop();
-        // bonusWheelAnimation.gameObject.SetActive(false);
+        //bonusWheelAnimation.Stop();
+        bonusWheelAnimation.gameObject.SetActive(false);
 
         //yield return new WaitForSeconds(1f);
 
         double awardValue = 0f;
 
-        if (socketManager.resultData.payload.features.cashSpinnerBonus.triggered)
-        {
-            var rawSlice = socketManager.features.cashSpinnerBonus.wheelSlices[socketManager.resultData.payload.features.cashSpinnerBonus.wheelStopIndex];
-            if (double.TryParse(rawSlice?.ToString(), out double parsedValue))
-            {
-                awardValue = parsedValue;
-            }
-            yield return SingleWheel();
-        }
+        // if (socketManager.resultData.payload.features.cashSpinnerBonus.triggered)
+        // {
+        //     var rawSlice = socketManager.features.cashSpinnerBonus.wheelSlices[socketManager.resultData.payload.features.cashSpinnerBonus.wheelStopIndex];
+        //     if (double.TryParse(rawSlice?.ToString(), out double parsedValue))
+        //     {
+        //         awardValue = parsedValue;
+        //     }
+        //     yield return SingleWheel();
+        // }
 
-        if (socketManager.resultData.payload.features.doubleCashSpinnerBonus.triggered)
-        {
-            awardValue = socketManager.features.doubleCashSpinnerBonus.wheelSlices[socketManager.resultData.payload.features.doubleCashSpinnerBonus.wheelStopIndex];
-            yield return DoubleWheel();
-        }
+        // if (socketManager.resultData.payload.features.doubleCashSpinnerBonus.triggered)
+        // {
+        //     awardValue = socketManager.features.doubleCashSpinnerBonus.wheelSlices[socketManager.resultData.payload.features.doubleCashSpinnerBonus.wheelStopIndex];
+        //     yield return DoubleWheel();
+        // }
 
         wheelWinText.GetComponent<CanvasGroup>().alpha = 0f;
         lineMultiplierText.GetComponent<CanvasGroup>().alpha = 0f;
@@ -164,23 +164,23 @@ public class BonusManager : MonoBehaviour
 
         yield return new WaitForSeconds(1.7f);
 
-        if (socketManager.resultData.payload.features.doubleCashSpinnerBonus.triggered)
-        {
-            multiplyTwoText.localPosition = new Vector3(400f, -22.515f, 0f);
-            multiplyTwoText.GetComponent<CanvasGroup>().DOFade(1f, 0.5f).SetEase(Ease.Linear).OnComplete(() =>
-            {
-                multiplyTwoText.DOLocalMoveX(100f, 0.7f).SetEase(Ease.Linear);
-                multiplyTwoText.GetComponent<CanvasGroup>().DOFade(0f, 0.7f).SetEase(Ease.Linear);
-            });
-            yield return new WaitForSeconds(0.2f);
-            displayAmount = awardValue;
-            wheelWinTextTween = DOTween.To(() => displayAmount, val =>
-            {
-                displayAmount = val;
-                wheelWinText.text = val.ToString("F2");
-            }, awardValue * 2, 1f);
-            yield return new WaitForSeconds(0.7f);
-        }
+        // if (socketManager.resultData.payload.features.doubleCashSpinnerBonus.triggered)
+        // {
+        //     multiplyTwoText.localPosition = new Vector3(400f, -22.515f, 0f);
+        //     multiplyTwoText.GetComponent<CanvasGroup>().DOFade(1f, 0.5f).SetEase(Ease.Linear).OnComplete(() =>
+        //     {
+        //         multiplyTwoText.DOLocalMoveX(100f, 0.7f).SetEase(Ease.Linear);
+        //         multiplyTwoText.GetComponent<CanvasGroup>().DOFade(0f, 0.7f).SetEase(Ease.Linear);
+        //     });
+        //     yield return new WaitForSeconds(0.2f);
+        //     displayAmount = awardValue;
+        //     wheelWinTextTween = DOTween.To(() => displayAmount, val =>
+        //     {
+        //         displayAmount = val;
+        //         wheelWinText.text = val.ToString("F2");
+        //     }, awardValue * 2, 1f);
+        //     yield return new WaitForSeconds(0.7f);
+        // }
 
         lineMultiplierText.GetComponent<CanvasGroup>().DOFade(1f, 0.7f).SetEase(Ease.Linear);
         displayAmount = 0f;
@@ -211,15 +211,15 @@ public class BonusManager : MonoBehaviour
             uIManager.ToggleBonusBackground(false);
             SlotPanel.SetActive(true);
             BonusPanel.SetActive(false);
-            uIManager.SpinButton.gameObject.SetActive(true);
-            uIManager.StopSpinButton.gameObject.SetActive(true);
+            uIManager.SetSpinButtonActive(true);
+            uIManager.SetStopSpinButtonActive(true);
         });
 
         audioController.PlayBonusHit(false);
-        // bonusWheelAnimation.animName = "wheel_left";
+        //bonusWheelAnimation.animName = "wheel_left";
         yield return new WaitForSeconds(0.3f);
-        // bonusWheelAnimation.Play(false);
-        // bonusWheelAnimation.gameObject.SetActive(true);
+        //bonusWheelAnimation.Play(false);
+        bonusWheelAnimation.gameObject.SetActive(true);
 
         yield return new WaitForSeconds(1f);
 
@@ -230,8 +230,8 @@ public class BonusManager : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
 
-        // bonusWheelAnimation.Stop();
-        // bonusWheelAnimation.gameObject.SetActive(false);
+        //bonusWheelAnimation.Stop();
+        bonusWheelAnimation.gameObject.SetActive(false);
 
         ResetWheels();
         isBonusFinished = true;
@@ -246,7 +246,7 @@ public class BonusManager : MonoBehaviour
 
         yield return new WaitUntil(() => wheelButtonPressed);
 
-        yield return RotateWheel(socketManager.resultData.payload.features.cashSpinnerBonus.wheelStopIndex, SingleBonusWheel);
+        //yield return RotateWheel(socketManager.resultData.payload.features.cashSpinnerBonus.wheelStopIndex, SingleBonusWheel);
 
         BlackWheelOverlayObject.SetActive(true);
         yield return new WaitForSeconds(3f);
@@ -276,7 +276,7 @@ public class BonusManager : MonoBehaviour
 
         yield return new WaitForSeconds(1.5f);
 
-        yield return RotateWheel(socketManager.resultData.payload.features.doubleCashSpinnerBonus.wheelStopIndex, DoubleBonusWheel);
+        //yield return RotateWheel(socketManager.resultData.payload.features.doubleCashSpinnerBonus.wheelStopIndex, DoubleBonusWheel);
 
         audioController.PlayWheelBlackOverlay(false);
         BlackWheelOverlayObject.SetActive(true);
