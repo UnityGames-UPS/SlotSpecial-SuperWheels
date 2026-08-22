@@ -70,12 +70,14 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text uwpBonusWinText;
     [SerializeField] private TMP_Text uwpBonusWheelMultiplierText;
     [SerializeField] private GameObject uwpBonusSubtitle;
+    [SerializeField] private Button WheelStartButton;
 
     [SerializeField] private Button uwpTakeButton;
     [SerializeField] private float uwpAutoCloseDelay = 5f;
     [SerializeField] private float uwpFreeSpinGroupScaleDuration = 0.4f;
     [SerializeField] private float uwpFreeSpinPopLegDuration = 0.15f;
     [SerializeField] private float uwpFreeSpinCompleteTitleScaleDuration = 1f;
+    [SerializeField] private float uwpCongratsPulseDuration = 0.5f;
     [Header("Universal Win Popup - Portrait")]
     [SerializeField] private GameObject universalWinPopupPortrait;
     [SerializeField] private RectTransform universalWinPopupRectPortrait;
@@ -941,20 +943,12 @@ public class UIManager : MonoBehaviour
         if (gameRulesPanel == null) return;
         audioController.PlayUIButton(false);
         gameRulesPanel.SetActive(true);
-        if (gameRulesPanelRect != null) AnimatePopupOpen(gameRulesPanelRect);
     }
 
     private void CloseGameRulesPanel()
     {
         if (gameRulesPanel == null) return;
-        if (gameRulesPanelRect != null)
-        {
-            AnimatePopupClose(gameRulesPanelRect, () => gameRulesPanel.SetActive(false));
-        }
-        else
-        {
-            gameRulesPanel.SetActive(false);
-        }
+        gameRulesPanel.SetActive(false);
     }
 
     private void UpdateGameRulesDynamicTexts()
@@ -1013,20 +1007,12 @@ public class UIManager : MonoBehaviour
         if (guidePanel == null) return;
         audioController.PlayUIButton(false);
         guidePanel.SetActive(true);
-        if (guidePanelRect != null) AnimatePopupOpen(guidePanelRect);
     }
 
     private void CloseGuidePanel()
     {
         if (guidePanel == null) return;
-        if (guidePanelRect != null)
-        {
-            AnimatePopupClose(guidePanelRect, () => guidePanel.SetActive(false));
-        }
-        else
-        {
-            guidePanel.SetActive(false);
-        }
+        guidePanel.SetActive(false);
     }
 
     #endregion
@@ -1613,7 +1599,7 @@ public class UIManager : MonoBehaviour
         seq.AppendCallback(() =>
         {
             StartPopupBgPulse(bg, sideDiamondsObj, cornerDiamondsObj);
-            if (congratsTitle) congratsTitle.transform.DOScale(1f, uwpFreeSpinCompleteTitleScaleDuration).SetEase(Ease.OutBack);
+            if (congratsTitle) StartCongratsTitlePulse(congratsTitle);
         });
         seq.AppendInterval(halfDuration);
         seq.AppendCallback(() =>
@@ -1626,10 +1612,19 @@ public class UIManager : MonoBehaviour
         seq.OnComplete(() =>
         {
             if (takeButton) takeButton.interactable = true;
-            if (uwpAutoCloseCoroutine == null) uwpAutoCloseCoroutine = StartCoroutine(AutoCloseUniversalWinPopup());
         });
 
         return seq;
+    }
+
+    // Scales the congratulations title in, then pulses it (1 -> 1.2 -> 1, forever) until CloseUniversalWinPopup kills it.
+    private void StartCongratsTitlePulse(GameObject congratsTitle)
+    {
+        congratsTitle.transform.DOScale(1f, uwpFreeSpinCompleteTitleScaleDuration).SetEase(Ease.OutBack)
+            .OnComplete(() =>
+            {
+                congratsTitle.transform.DOScale(1.2f, uwpCongratsPulseDuration).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
+            });
     }
 
     private Sequence AnimateBonusTriggerIntro(GameObject popup, Button takeButton)
@@ -1692,7 +1687,7 @@ public class UIManager : MonoBehaviour
         seq.AppendCallback(() =>
         {
             StartPopupBgPulse(bg, sideDiamondsObj, cornerDiamondsObj);
-            if (congratsTitle) congratsTitle.transform.DOScale(1f, uwpFreeSpinCompleteTitleScaleDuration).SetEase(Ease.OutBack);
+            if (congratsTitle) StartCongratsTitlePulse(congratsTitle);
         });
         seq.AppendInterval(halfDuration);
         seq.AppendCallback(() =>
@@ -1706,7 +1701,6 @@ public class UIManager : MonoBehaviour
         seq.OnComplete(() =>
         {
             if (takeButton) takeButton.interactable = true;
-            if (uwpAutoCloseCoroutine == null) uwpAutoCloseCoroutine = StartCoroutine(AutoCloseUniversalWinPopup());
         });
 
         return seq;
@@ -1796,6 +1790,11 @@ public class UIManager : MonoBehaviour
         }
         if (uwpSparkleAnimation) uwpSparkleAnimation.StopAnimation();
         if (uwpSparkleAnimationPortrait) uwpSparkleAnimationPortrait.StopAnimation();
+
+        // The congrats-title pulse is a standalone tween started from inside the intro sequences'
+        // OnComplete, so killing those sequences (below) doesn't stop it — kill it explicitly here.
+        if (uwpCongratulationsTitle) uwpCongratulationsTitle.transform.DOKill();
+        if (uwpCongratulationsTitlePortrait) uwpCongratulationsTitlePortrait.transform.DOKill();
 
         if (uwpFreeSpinCompleteIntroSeqLandscape != null)
         {

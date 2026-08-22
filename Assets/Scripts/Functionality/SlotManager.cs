@@ -263,7 +263,6 @@ public class SlotManager : MonoBehaviour
         for (int i = 0; i < _numberOfSlots; i++)
         {
             InitializeTweening(_slotTransforms[i]);
-            yield return new WaitForSeconds(0.1f);
         }
         audioController.PlayReelSpinning(true);
 
