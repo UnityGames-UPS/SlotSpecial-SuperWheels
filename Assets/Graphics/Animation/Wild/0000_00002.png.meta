@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 29f69286453164cc29f1f7e22cdfc23f
+guid: de380f41712be4e23826a24fa6c888bf
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -11,6 +11,9 @@ TextureImporter:
   - first:
       213: -2504823928936597063
     second: 0000_00002_2
+  - first:
+      213: 7285439529990827536
+    second: 0000_00002_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -135,9 +138,9 @@ TextureImporter:
       name: 0000_00002_0
       rect:
         serializedVersion: 2
-        x: 12
+        x: 0
         y: 0
-        width: 249
+        width: 262
         height: 165
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -157,10 +160,10 @@ TextureImporter:
       name: 0000_00002_1
       rect:
         serializedVersion: 2
-        x: 37
-        y: 148
-        width: 40
-        height: 14
+        x: 87
+        y: 158
+        width: 8
+        height: 7
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -179,10 +182,10 @@ TextureImporter:
       name: 0000_00002_2
       rect:
         serializedVersion: 2
-        x: 191
-        y: 151
+        x: 96
+        y: 159
         width: 10
-        height: 12
+        height: 6
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -193,6 +196,28 @@ TextureImporter:
       bones: []
       spriteID: 9b9f5d268e31d3dd0800000000000000
       internalID: -2504823928936597063
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 0000_00002_3
+      rect:
+        serializedVersion: 2
+        x: 152
+        y: 160
+        width: 30
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 01e21b117a41b1560800000000000000
+      internalID: 7285439529990827536
       vertices: []
       indices: 
       edges: []
@@ -214,6 +239,7 @@ TextureImporter:
       0000_00002_0: -8343616523384197460
       0000_00002_1: -6442476525890524096
       0000_00002_2: -2504823928936597063
+      0000_00002_3: 7285439529990827536
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

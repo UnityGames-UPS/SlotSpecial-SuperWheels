@@ -1,0 +1,133 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8300000000000001
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8300000000000002}
+  - component: {fileID: 8300000000000003}
+  - component: {fileID: 8300000000000004}
+  - component: {fileID: 8300000000000005}
+  - component: {fileID: 8300000000000006}
+  m_Layer: 5
+  m_Name: Rocket
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &8300000000000002
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8300000000000001}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 300, y: 350}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &8300000000000003
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8300000000000001}
+  m_CullTransparentMesh: 1
+--- !u!114 &8300000000000004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8300000000000001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: -2109757552703183393, guid: ad780712813524b8898ced3e26f939dc, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 1
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!114 &8300000000000005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8300000000000001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d9ae1bf2ec654621a0c3eaff2a909fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ImageAnimation
+  textureArray:
+  - {fileID: 21300000, guid: 5d5b718ddcb0647c28035ccf5dc3829b, type: 3}
+  - {fileID: 21300000, guid: a2c6c222d452a44a1a1e28005e29c4c0, type: 3}
+  - {fileID: 21300000, guid: 48e8d45349f234336ae69f2ab24d9fb1, type: 3}
+  - {fileID: 21300000, guid: 92a9e502e39f54d65bf872a8e5e8fb6b, type: 3}
+  - {fileID: 21300000, guid: 8a9e974878501414b9f0610b2c5bfe47, type: 3}
+  - {fileID: 21300000, guid: 2a1a160c84ea94db99d276cc8ce14f14, type: 3}
+  - {fileID: 21300000, guid: 48bd3792c4d2f4ae6b97a3697a4c7948, type: 3}
+  - {fileID: 21300000, guid: 9020ee86e492c45ebb67ca39ae60f8d8, type: 3}
+  - {fileID: 21300000, guid: b1a7da116b49a44a7907574b29fec83b, type: 3}
+  - {fileID: 21300000, guid: 20dab9564b34e445da445f764556e870, type: 3}
+  - {fileID: 21300000, guid: 0b66563b012674861a7a52df8f52d6ca, type: 3}
+  - {fileID: 21300000, guid: 21567ffe707124e4d80cb09bc875c895, type: 3}
+  - {fileID: 21300000, guid: 11148dada6c314068a0daf6f80fc3eb6, type: 3}
+  - {fileID: 21300000, guid: 48c65a7aa85f8476b9720219baa27e80, type: 3}
+  - {fileID: 21300000, guid: 77b4678a680fc47039a8fcc2dc7f1120, type: 3}
+  - {fileID: 21300000, guid: 946559c1393024e88abb1d4df834465b, type: 3}
+  - {fileID: 21300000, guid: 25d44bece2cff46f093426922d1ce04d, type: 3}
+  - {fileID: 21300000, guid: 45b8ad2f4a23a40da8349774aedcac47, type: 3}
+  - {fileID: 21300000, guid: 37e3f7b1d2d0248dab141528b6d5619a, type: 3}
+  - {fileID: 21300000, guid: ba02f60bcec464f8fa0982360d740e68, type: 3}
+  rendererDelegate: {fileID: 8300000000000004}
+  useSharedMaterial: 1
+  doLoopAnimation: 0
+  StartOnAwake: 0
+  AnimationSpeed: 35
+  delayBetweenLoop: 0
+  currentAnimationState: 0
+--- !u!114 &8300000000000006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8300000000000001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a083eeb37b0c4d3e8bed59631dffde92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RocketItem
+  rect: {fileID: 8300000000000002}
+  anim: {fileID: 8300000000000005}

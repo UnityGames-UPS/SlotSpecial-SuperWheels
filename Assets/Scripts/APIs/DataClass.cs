@@ -31,12 +31,24 @@ public class Root
     public GameData gameData { get; set; }
     public UiData uiData { get; set; }
     public Player player { get; set; }
+    public JackpotData jackpotData { get; set; }
+    public Values values { get; set; }
 
     // result Data Classes
     public bool success { get; set; }
     public List<List<string>> matrix { get; set; }
     public Payload payload { get; set; }
     public Features features { get; set; }
+    public string gameId { get; set; }
+}
+
+[Serializable]
+public class Values
+{
+    public string miniJackpot { get; set; }
+    public string minorJackpot { get; set; }
+    public string majorJackpot { get; set; }
+    public string grandJackpot { get; set; }
 }
 
 [Serializable]
@@ -45,12 +57,34 @@ public class GameData
     public List<List<int>> lines { get; set; }
     public List<double> bets { get; set; }
     public int totalLines { get; set; }
+    public SuperWheelConfig superWheel { get; set; }
+}
+
+[Serializable]
+public class SuperWheelConfig
+{
+    public List<WheelSegment> inner { get; set; }
+    public List<WheelSegment> middle { get; set; }
+    public List<WheelSegment> outer { get; set; }
+}
+
+[Serializable]
+public class WheelSegment
+{
+    public int multiplier { get; set; }
+    public bool isPowerUp { get; set; }
 }
 
 [Serializable]
 public class Player
 {
     public double balance { get; set; }
+}
+
+[Serializable]
+public class JackpotData
+{
+    public Values values { get; set; }
 }
 
 [Serializable]
@@ -88,12 +122,13 @@ public class Payload
     public double winAmount { get; set; }
     public List<LineWin> lineWins { get; set; }
     public double heatEmUpWin { get; set; }
-    public object superWheelBonus { get; set; }
     public int activeLines { get; set; }
     public int freeSpinsRemaining { get; set; }
     public bool isFreeSpinActive { get; set; }
     public bool isFreeSpinsTriggered { get; set; }
     public bool isWheelTriggered { get; set; }
+    public SuperWheelBonus superWheelBonus { get; set; }
+    public int freeSpinsAdded { get; set; }
 }
 
 [Serializable]
@@ -117,3 +152,22 @@ public class Position
 public class Features
 {
 }
+
+[Serializable]
+public class Spin
+{
+    public string ring { get; set; }
+    public int stopIndex { get; set; }
+    public int multiplier { get; set; }
+    public bool isPowerUp { get; set; }
+    public double awardValue { get; set; }
+}
+
+[Serializable]
+public class SuperWheelBonus
+{
+    public bool isTriggered { get; set; }
+    public List<Spin> spins { get; set; }
+    public double totalAwardValue { get; set; }
+}
+

@@ -19,6 +19,8 @@ public class OCController : MonoBehaviour
     [Header("Background Toggle Settings")]
     [SerializeField] private GameObject landscapeBackground;
     [SerializeField] private GameObject portraitBackground;
+    [SerializeField] private GameObject wheelLandscapeBackground;
+    [SerializeField] private GameObject wheelPortraitBackground;
 
     [Header("Canvas Scaler Resolutions")]
     [SerializeField] private Vector2 landscapeReferenceResolution = new Vector2(1920f, 1080f);
@@ -38,6 +40,17 @@ public class OCController : MonoBehaviour
     [SerializeField] private Vector3 landscapeSlotPosition = Vector3.zero;
     [SerializeField] private Vector3 portraitSlotPosition = new Vector3(0f, -150f, 0f);
 
+    [Header("Logo Object Settings")]
+    [SerializeField] private RectTransform logoObject;
+    [SerializeField] private Vector3 landscapeLogoScale = Vector3.one;
+    [SerializeField] private Vector3 portraitLogoScale = new Vector3(1.27f, 1.27f, 1.27f);
+    [SerializeField] private Vector2 landscapeLogoPosition = new Vector2(0f, 355f);
+    [SerializeField] private Vector2 portraitLogoPosition = new Vector2(0f, 500f);
+
+    [Header("Info Page & Guide Settings")]
+    [SerializeField] private RectTransform infoPageScrollObject;
+    [SerializeField] private RectTransform guideScrollObject;
+
     [Header("Animation Settings")]
     [SerializeField] private float transitionDuration = 0.2f;
 
@@ -52,6 +65,10 @@ public class OCController : MonoBehaviour
             {
                 orientationChange = Object.FindFirstObjectByType<OrientationChange>();
             }
+        }
+        if (canvasScaler == null && orientationChange != null)
+        {
+            canvasScaler = orientationChange.GetComponent<CanvasScaler>();
         }
     }
 
@@ -93,10 +110,28 @@ public class OCController : MonoBehaviour
         if (landscapeBackground != null)
         {
             landscapeBackground.SetActive(!isMobilePortrait);
+            if (landscapeBackground.activeSelf)
+            {
+                landscapeBackground.GetComponent<ImageAnimation>().StartAnimation();
+            }
         }
         if (portraitBackground != null)
         {
             portraitBackground.SetActive(isMobilePortrait);
+            if (portraitBackground.activeSelf)
+            {
+                portraitBackground.GetComponent<ImageAnimation>().StartAnimation();
+            }
+        }
+
+        // Toggle Wheel Landscape vs Portrait Background Objects
+        if (wheelLandscapeBackground != null)
+        {
+            wheelLandscapeBackground.SetActive(!isMobilePortrait);
+        }
+        if (wheelPortraitBackground != null)
+        {
+            wheelPortraitBackground.SetActive(isMobilePortrait);
         }
 
         // 3. Update Canvas Scaler Reference Resolution
@@ -127,7 +162,7 @@ public class OCController : MonoBehaviour
             }
         }
 
-        // 4b. Resize Square RectTransforms
+        // 4b. Resize Target RectTransforms (1920x1080 Landscape, 1920x1920 Portrait)
         Vector2 targetSquareSize = isMobilePortrait ? portraitSquareResizedObjectSize : landscapeSquareResizedObjectSize;
         if (squareResizedObjects != null)
         {
@@ -165,6 +200,58 @@ public class OCController : MonoBehaviour
             {
                 slotObject.localScale = targetScale;
                 slotObject.localPosition = targetPosition;
+            }
+        }
+
+        // 6. Update Logo Object Scale and Position
+        if (logoObject != null)
+        {
+            Vector3 targetScale = isMobilePortrait ? portraitLogoScale : landscapeLogoScale;
+            Vector2 targetPosition = isMobilePortrait ? portraitLogoPosition : landscapeLogoPosition;
+
+            if (transitionDuration > 0)
+            {
+                Tween scaleTween = logoObject.DOScale(targetScale, transitionDuration).SetEase(Ease.OutCubic);
+                Tween posTween = logoObject.DOAnchorPos(targetPosition, transitionDuration).SetEase(Ease.OutCubic);
+                activeTweens.Add(scaleTween);
+                activeTweens.Add(posTween);
+            }
+            else
+            {
+                logoObject.localScale = targetScale;
+                logoObject.anchoredPosition = targetPosition;
+            }
+        }
+
+        // 7. Update Info Page Scroll Object Height (1080 for Landscape, 1920 for Mobile Portrait)
+        if (infoPageScrollObject != null)
+        {
+            float targetHeight = isMobilePortrait ? 1920f : 1080f;
+            Vector2 targetScrollSize = new Vector2(infoPageScrollObject.sizeDelta.x, targetHeight);
+            if (transitionDuration > 0)
+            {
+                Tween scrollTween = infoPageScrollObject.DOSizeDelta(targetScrollSize, transitionDuration).SetEase(Ease.OutCubic);
+                activeTweens.Add(scrollTween);
+            }
+            else
+            {
+                infoPageScrollObject.sizeDelta = targetScrollSize;
+            }
+        }
+
+        // 8. Update Guide Scroll Object Height (1080 for Landscape, 1920 for Mobile Portrait)
+        if (guideScrollObject != null)
+        {
+            float targetHeight = isMobilePortrait ? 1920f : 1080f;
+            Vector2 targetScrollSize = new Vector2(guideScrollObject.sizeDelta.x, targetHeight);
+            if (transitionDuration > 0)
+            {
+                Tween scrollTween = guideScrollObject.DOSizeDelta(targetScrollSize, transitionDuration).SetEase(Ease.OutCubic);
+                activeTweens.Add(scrollTween);
+            }
+            else
+            {
+                guideScrollObject.sizeDelta = targetScrollSize;
             }
         }
     }

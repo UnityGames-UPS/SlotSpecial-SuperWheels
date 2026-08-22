@@ -4,6 +4,7 @@ using TMPro;
 using DG.Tweening;
 using System.Collections;
 using System.Text;
+using System.Collections.Generic;
 
 public class UIManager : MonoBehaviour
 {
@@ -39,14 +40,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject winTextObjectPortrait;
     [SerializeField] private GameObject goodLuckObjectPortrait;
 
-    [Header("Bonus Background")]
-    [SerializeField] private Image bgImage;
-    [SerializeField] private Sprite blueSprite;
-    [SerializeField] private Sprite redSprite;
-
-    [Header("Background Shine Particles")]
-    [SerializeField] private GameObject shinePrefab;
-    [SerializeField] private RectTransform shineParentRect;
+    [Header("Background Animation")]
+    [SerializeField] private ImageAnimation bgImage;
 
     [Header("Main Popup Backdrop")]
     [SerializeField] private GameObject mainPopupObject;
@@ -56,6 +51,10 @@ public class UIManager : MonoBehaviour
     [Header("Universal Win Popup")]
     [SerializeField] private GameObject universalWinPopup;
     [SerializeField] private RectTransform universalWinPopupRect;
+    [SerializeField] private ImageAnimation uwpBg;
+    [SerializeField] private GameObject sideDiamonds;
+    [SerializeField] private GameObject cornerDiamonds;
+
     [SerializeField] private GameObject uwpCongratulationsTitle;
     [SerializeField] private GameObject uwpYouWonSubtitle;
     [SerializeField] private GameObject uwpBigWinTitle;
@@ -67,17 +66,35 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text uwpFreeSpinCountText;
     [SerializeField] private GameObject uwpFreeSpinTextObject;
 
+    [SerializeField] private GameObject uwpBonusTriggerObject;
+    [SerializeField] private TMP_Text uwpBonusWinText;
+    [SerializeField] private TMP_Text uwpBonusWheelMultiplierText;
+    [SerializeField] private GameObject uwpBonusSubtitle;
+
     [SerializeField] private Button uwpTakeButton;
     [SerializeField] private float uwpAutoCloseDelay = 5f;
+    [SerializeField] private float uwpFreeSpinGroupScaleDuration = 0.4f;
+    [SerializeField] private float uwpFreeSpinPopLegDuration = 0.15f;
+    [SerializeField] private float uwpFreeSpinCompleteTitleScaleDuration = 1f;
     [Header("Universal Win Popup - Portrait")]
     [SerializeField] private GameObject universalWinPopupPortrait;
     [SerializeField] private RectTransform universalWinPopupRectPortrait;
+    [SerializeField] private ImageAnimation uwpBgPortrait;
+    [SerializeField] private GameObject sideDiamondsPortrait;
+    [SerializeField] private GameObject cornerDiamondsPortrait;
     [SerializeField] private GameObject uwpCongratulationsTitlePortrait;
     [SerializeField] private GameObject uwpYouWonSubtitlePortrait;
     [SerializeField] private GameObject uwpBigWinTitlePortrait;
     [SerializeField] private TMP_Text uwpWinAmountTextPortrait;
+    [SerializeField] private ImageAnimation uwpSparkleAnimationPortrait;
+    [SerializeField] private GameObject MainFreeSpinObjectPortrait;
+    [SerializeField] private GameObject uwpFreeSpinTitlePortrait;
     [SerializeField] private TMP_Text uwpFreeSpinCountTextPortrait;
     [SerializeField] private GameObject uwpFreeSpinObjectPortrait;
+    [SerializeField] private GameObject uwpBonusTriggerObjectPortrait;
+    [SerializeField] private TMP_Text uwpBonusWinTextPortrait;
+    [SerializeField] private TMP_Text uwpBonusWheelMultiplierTextPortrait;
+    [SerializeField] private GameObject uwpBonusSubtitlePortrait;
     [SerializeField] private Button uwpTakeButtonPortrait;
 
     [Header("Spin Button")]
@@ -183,10 +200,24 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text ruleSymbol8Text;
     [SerializeField] private TMP_Text ruleSymbol9Text;
 
+    [Header("Heat Up Text Groups")]
+    [SerializeField] private TMP_Text[] twoSymbolHeatUpTexts;
+    [SerializeField] private TMP_Text[] threeSymbolHeatUpTexts;
+    [SerializeField] private TMP_Text[] fourSymbolHeatUpTexts;
+    [SerializeField] private TMP_Text[] fiveSymbolHeatUpTexts;
+    [SerializeField] private TMP_Text[] sixSymbolHeatUpTexts;
+    [SerializeField] private TMP_Text[] sevenSymbolHeatUpTexts;
+
+    // Cached lookup array to eliminate runtime branching
+    private TMP_Text[][] heatUpTextGroups;
+
     [Header("Free Spin Count Display - Game Screen")]
     [SerializeField] private GameObject freeSpinCountContainer;
     [SerializeField] private TMP_Text remainingFreeSpinsText;
     [SerializeField] private TMP_Text FreeSpinTotalWinText;
+    [SerializeField] private GameObject freeSpinCountContainerPortrait;
+    [SerializeField] private TMP_Text remainingFreeSpinsTextPortrait;
+    [SerializeField] private TMP_Text FreeSpinTotalWinTextPortrait;
     [Header("Free Spin Transition")]
     [SerializeField] private CanvasGroup transitionBackFilm;
 
@@ -273,6 +304,15 @@ public class UIManager : MonoBehaviour
     private System.Action universalWinPopupCallback;
     private Coroutine uwpAutoCloseCoroutine;
     private Tween uwpWinTween;
+    private Sequence uwpFreeSpinIntroSeqLandscape;
+    private Sequence uwpFreeSpinIntroSeqPortrait;
+    private Tween freeSpinTotalWinTween;
+    private Sequence uwpFreeSpinCompleteIntroSeqLandscape;
+    private Sequence uwpFreeSpinCompleteIntroSeqPortrait;
+    private Sequence uwpBonusTriggerIntroSeqLandscape;
+    private Sequence uwpBonusTriggerIntroSeqPortrait;
+    private Sequence uwpBonusCompleteIntroSeqLandscape;
+    private Sequence uwpBonusCompleteIntroSeqPortrait;
 
     private void Awake()
     {
@@ -281,6 +321,15 @@ public class UIManager : MonoBehaviour
             jsFunctCalls.RegisterVisibilityListener(gameObject.name);
             jsFunctCalls.RegisterFullscreenListener(gameObject.name);
         }
+        heatUpTextGroups = new TMP_Text[][]
+        {
+            twoSymbolHeatUpTexts,    // index 0 -> corresponds to heatUpValues[1]
+            threeSymbolHeatUpTexts,  // index 1 -> corresponds to heatUpValues[2]
+            fourSymbolHeatUpTexts,   // index 2 -> corresponds to heatUpValues[3]
+            fiveSymbolHeatUpTexts,   // index 3 -> corresponds to heatUpValues[4]
+            sixSymbolHeatUpTexts,    // index 4 -> corresponds to heatUpValues[5]
+            sevenSymbolHeatUpTexts   // index 5 -> corresponds to heatUpValues[6]
+        };
     }
 
     public void OnFocusChanged(string value)
@@ -314,6 +363,8 @@ public class UIManager : MonoBehaviour
 
         if (gameScreen) gameScreen.SetActive(true);
         InitializeUI();
+
+        //ShowUniversalWinPopup(WinPopupType.FreeSpinComplete, 1.879f, 0, null, 200);
     }
 
     private void InitializeUI()
@@ -332,6 +383,7 @@ public class UIManager : MonoBehaviour
         SetGameObjectActive(universalWinPopup, universalWinPopupPortrait, false);
 
         if (freeSpinCountContainer) freeSpinCountContainer.SetActive(false);
+        if (freeSpinCountContainerPortrait) freeSpinCountContainerPortrait.SetActive(false);
         if (transitionBackFilm) transitionBackFilm.gameObject.SetActive(false);
 
         UpdatePingDisplay("-- ms");
@@ -416,12 +468,12 @@ public class UIManager : MonoBehaviour
         if (uwpTakeButton) uwpTakeButton.onClick.AddListener(OnUniversalWinTakeButtonClicked);
         if (uwpTakeButtonPortrait) uwpTakeButtonPortrait.onClick.AddListener(OnUniversalWinTakeButtonClicked);
 
-        if (normalSpeedButton) normalSpeedButton.onClick.AddListener(() => { audioController.PlayUIButton(false); SetSpeedMode(SlotManager.SpinSpeed.Turbo); });
-        if (turboSpeedButton) turboSpeedButton.onClick.AddListener(() => { audioController.PlayUIButton(false); SetSpeedMode(SlotManager.SpinSpeed.QuickSpin); });
-        if (quickSpeedButton) quickSpeedButton.onClick.AddListener(() => { audioController.PlayUIButton(false); SetSpeedMode(SlotManager.SpinSpeed.Normal); });
-        if (normalSpeedButtonPortrait) normalSpeedButtonPortrait.onClick.AddListener(() => { audioController.PlayUIButton(false); SetSpeedMode(SlotManager.SpinSpeed.Turbo); });
-        if (turboSpeedButtonPortrait) turboSpeedButtonPortrait.onClick.AddListener(() => { audioController.PlayUIButton(false); SetSpeedMode(SlotManager.SpinSpeed.QuickSpin); });
-        if (quickSpeedButtonPortrait) quickSpeedButtonPortrait.onClick.AddListener(() => { audioController.PlayUIButton(false); SetSpeedMode(SlotManager.SpinSpeed.Normal); });
+        if (normalSpeedButton) normalSpeedButton.onClick.AddListener(() => { SetSpeedMode(SlotManager.SpinSpeed.Turbo); });
+        if (turboSpeedButton) turboSpeedButton.onClick.AddListener(() => { SetSpeedMode(SlotManager.SpinSpeed.QuickSpin); });
+        if (quickSpeedButton) quickSpeedButton.onClick.AddListener(() => { SetSpeedMode(SlotManager.SpinSpeed.Normal); });
+        if (normalSpeedButtonPortrait) normalSpeedButtonPortrait.onClick.AddListener(() => { SetSpeedMode(SlotManager.SpinSpeed.Turbo); });
+        if (turboSpeedButtonPortrait) turboSpeedButtonPortrait.onClick.AddListener(() => { SetSpeedMode(SlotManager.SpinSpeed.QuickSpin); });
+        if (quickSpeedButtonPortrait) quickSpeedButtonPortrait.onClick.AddListener(() => { SetSpeedMode(SlotManager.SpinSpeed.Normal); });
     }
 
     private void WireSpinButton(Button button)
@@ -442,19 +494,19 @@ public class UIManager : MonoBehaviour
 
     private void SetupAutoPlayPanel()
     {
-        if (autoPlay10Button) autoPlay10Button.onClick.AddListener(() => { audioController.PlayUIButton(false); StartAutoplayWithRounds(10); });
-        if (autoPlay50Button) autoPlay50Button.onClick.AddListener(() => { audioController.PlayUIButton(false); StartAutoplayWithRounds(50); });
-        if (autoPlay100Button) autoPlay100Button.onClick.AddListener(() => { audioController.PlayUIButton(false); StartAutoplayWithRounds(100); });
-        if (autoPlay200Button) autoPlay200Button.onClick.AddListener(() => { audioController.PlayUIButton(false); StartAutoplayWithRounds(200); });
-        if (autoPlay500Button) autoPlay500Button.onClick.AddListener(() => { audioController.PlayUIButton(false); StartAutoplayWithRounds(500); });
-        if (autoPlayInfiniteButton) autoPlayInfiniteButton.onClick.AddListener(() => { audioController.PlayUIButton(false); StartAutoplayWithRounds(-1); });
+        if (autoPlay10Button) autoPlay10Button.onClick.AddListener(() => { audioController.PlayAutoplaySelect(); StartAutoplayWithRounds(10); });
+        if (autoPlay50Button) autoPlay50Button.onClick.AddListener(() => { audioController.PlayAutoplaySelect(); StartAutoplayWithRounds(50); });
+        if (autoPlay100Button) autoPlay100Button.onClick.AddListener(() => { audioController.PlayAutoplaySelect(); StartAutoplayWithRounds(100); });
+        if (autoPlay200Button) autoPlay200Button.onClick.AddListener(() => { audioController.PlayAutoplaySelect(); StartAutoplayWithRounds(200); });
+        if (autoPlay500Button) autoPlay500Button.onClick.AddListener(() => { audioController.PlayAutoplaySelect(); StartAutoplayWithRounds(500); });
+        if (autoPlayInfiniteButton) autoPlayInfiniteButton.onClick.AddListener(() => { audioController.PlayAutoplaySelect(); StartAutoplayWithRounds(-1); });
 
-        if (autoPlay10ButtonPortrait) autoPlay10ButtonPortrait.onClick.AddListener(() => { audioController.PlayUIButton(false); StartAutoplayWithRounds(10); });
-        if (autoPlay50ButtonPortrait) autoPlay50ButtonPortrait.onClick.AddListener(() => { audioController.PlayUIButton(false); StartAutoplayWithRounds(50); });
-        if (autoPlay100ButtonPortrait) autoPlay100ButtonPortrait.onClick.AddListener(() => { audioController.PlayUIButton(false); StartAutoplayWithRounds(100); });
-        if (autoPlay200ButtonPortrait) autoPlay200ButtonPortrait.onClick.AddListener(() => { audioController.PlayUIButton(false); StartAutoplayWithRounds(200); });
-        if (autoPlay500ButtonPortrait) autoPlay500ButtonPortrait.onClick.AddListener(() => { audioController.PlayUIButton(false); StartAutoplayWithRounds(500); });
-        if (autoPlayInfiniteButtonPortrait) autoPlayInfiniteButtonPortrait.onClick.AddListener(() => { audioController.PlayUIButton(false); StartAutoplayWithRounds(-1); });
+        if (autoPlay10ButtonPortrait) autoPlay10ButtonPortrait.onClick.AddListener(() => { audioController.PlayAutoplaySelect(); StartAutoplayWithRounds(10); });
+        if (autoPlay50ButtonPortrait) autoPlay50ButtonPortrait.onClick.AddListener(() => { audioController.PlayAutoplaySelect(); StartAutoplayWithRounds(50); });
+        if (autoPlay100ButtonPortrait) autoPlay100ButtonPortrait.onClick.AddListener(() => { audioController.PlayAutoplaySelect(); StartAutoplayWithRounds(100); });
+        if (autoPlay200ButtonPortrait) autoPlay200ButtonPortrait.onClick.AddListener(() => { audioController.PlayAutoplaySelect(); StartAutoplayWithRounds(200); });
+        if (autoPlay500ButtonPortrait) autoPlay500ButtonPortrait.onClick.AddListener(() => { audioController.PlayAutoplaySelect(); StartAutoplayWithRounds(500); });
+        if (autoPlayInfiniteButtonPortrait) autoPlayInfiniteButtonPortrait.onClick.AddListener(() => { audioController.PlayAutoplaySelect(); StartAutoplayWithRounds(-1); });
 
         if (autoPlayCloseButton) autoPlayCloseButton.onClick.AddListener(CloseAutoPlayPanel);
         if (autoPlayCloseButtonPortrait) autoPlayCloseButtonPortrait.onClick.AddListener(CloseAutoPlayPanel);
@@ -675,7 +727,6 @@ public class UIManager : MonoBehaviour
 
     private void ChangeBet(bool increase)
     {
-        audioController.PlayUIButton(false);
         if (increase)
         {
             betCounter++;
@@ -686,6 +737,12 @@ public class UIManager : MonoBehaviour
             betCounter--;
             if (betCounter < 0) betCounter = socketManager.initialData.bets.Count - 1;
         }
+
+        if (increase && betCounter == socketManager.initialData.bets.Count - 1)
+            audioController.PlayMaxBet();
+        else
+            audioController.PlayUIButton(false);
+
         UpdateBetDisplay();
     }
 
@@ -701,7 +758,7 @@ public class UIManager : MonoBehaviour
 
     private void OpenAutoPlayPanel()
     {
-        audioController.PlayUIButton(false);
+        audioController.PlayAutoplayOpen();
         if (IsActivePair(settingsPanel, settingsPanelPortrait)) ClosePopup(settingsPanel, settingsPanelPortrait);
 
         SetGameObjectActive(autoPlayPanel, autoPlayPanelPortrait, true);
@@ -758,6 +815,9 @@ public class UIManager : MonoBehaviour
 
     internal void SetSpeedMode(SlotManager.SpinSpeed speed)
     {
+        if (speed == SlotManager.SpinSpeed.Normal) audioController.PlayUIButton(false);
+        else audioController.PlayTurboActivate();
+
         slotManager.SetSpinSpeed(speed);
         UpdateSpeedButtonsVisibility(speed);
     }
@@ -923,13 +983,15 @@ public class UIManager : MonoBehaviour
             if (symbol == null || symbol.multiplier == null || symbol.multiplier.Count == 0) continue;
 
             string fullText = "";
-            int currentMatch = 5;
-            for (int m = 0; m < symbol.multiplier.Count; m++)
+            int matchCount = symbol.multiplier.Count;
+            for (int m = symbol.multiplier.Count - 1; m >= 0; m--)
             {
                 double win = symbol.multiplier[m];
-                string line = $"{currentMatch}     {win}";
-                fullText = (m == 0) ? line : fullText + $"\n{line}";
-                currentMatch--;
+                if (win == 0) break;
+
+                string line = $"{matchCount} {win:0.##}";
+                fullText = (fullText == "") ? line : fullText + $"\n{line}";
+                matchCount--;
             }
 
             symbolTexts[i].text = fullText;
@@ -969,29 +1031,58 @@ public class UIManager : MonoBehaviour
 
     #endregion
 
+    #region HeatUp Text Setup
+
+    internal void UpdateHeatUpText(List<double> heatUpValues)
+    {
+        if (heatUpValues == null) return;
+
+        // Iterate through groups directly, starting from value index 1
+        int count = Mathf.Min(heatUpTextGroups.Length, heatUpValues.Count - 1);
+
+        for (int i = 0; i < count; i++)
+        {
+            string formattedValue = heatUpValues[i + 1].ToString(); // Format as needed
+            var targetTexts = heatUpTextGroups[i];
+
+            if (targetTexts == null) continue;
+
+            for (int j = 0; j < targetTexts.Length; j++)
+            {
+                if (targetTexts[j] != null)
+                    targetTexts[j].text = formattedValue;
+            }
+        }
+    }
+
+    #endregion
+
     #region Free Spins Flow
 
     internal void OnFreeSpinsTriggered(int spinsAwarded)
     {
+        audioController.PlayFreeSpinsWon();
         ShowUniversalWinPopup(WinPopupType.FreeSpinTrigger, 0, spinsAwarded, () => StartFreeSpinsSequence(spinsAwarded));
     }
 
     private void StartFreeSpinsSequence(int spinsAwarded)
     {
         slotManager.isInFreeSpins = true;
-        slotManager.freeSpinsRemaining = spinsAwarded;
-        slotManager.freeSpinsUsed = 0;
-        totalFreeSpinsAwarded = spinsAwarded;
+        int totalSpins = socketManager.resultData.payload.freeSpinsRemaining;
+
+        // Keep SlotManager's own counter in sync so the first free spin's TweenRoutine (which does
+        // UpdateFreeSpinCount(freeSpinsRemaining--)) doesn't stomp this correct value with stale data.
+        slotManager.freeSpinsRemaining = totalSpins;
 
         if (gameLogoObject) gameLogoObject.SetActive(false);
-        UpdateFreeSpinCount(0, spinsAwarded);
+        UpdateFreeSpinCount(totalSpins);
         UpdateWinDisplay(0);
     }
 
-    internal void OnFreeSpinsEnded(double serverTotalRoundWin, int serverTotalSpinsUsed)
+    internal void OnFreeSpinsEnded(double serverTotalRoundWin)
     {
         slotManager.isInFreeSpins = false;
-        totalFreeSpinsAwarded = 0;
+        audioController.PlayFreeSpinsWinAmount();
         ShowUniversalWinPopup(WinPopupType.FreeSpinComplete, serverTotalRoundWin, 0, () => StartCoroutine(EndFreeSpinsTransitionSequence()));
     }
 
@@ -1006,6 +1097,7 @@ public class UIManager : MonoBehaviour
         }
 
         if (freeSpinCountContainer) freeSpinCountContainer.SetActive(false);
+        if (freeSpinCountContainerPortrait) freeSpinCountContainerPortrait.SetActive(false);
         if (gameLogoObject) gameLogoObject.SetActive(true);
 
         UpdateWinDisplay(0);
@@ -1020,12 +1112,15 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    internal void UpdateFreeSpinCount(int playedSpins, int totalSpins = -1)
+    internal void UpdateFreeSpinCount(int remainingSpins)
     {
-        if (totalSpins > 0) totalFreeSpinsAwarded = totalSpins;
+        //if (totalSpins > 0) totalFreeSpinsAwarded = totalSpins;
 
         if (freeSpinCountContainer) freeSpinCountContainer.SetActive(true);
-        if (remainingFreeSpinsText) remainingFreeSpinsText.text = $"FREE GAME  {playedSpins}  OF  {totalFreeSpinsAwarded}";
+        if (freeSpinCountContainerPortrait) freeSpinCountContainerPortrait.SetActive(true);
+        // remainingSpins = totalFreeSpinsAwarded - playedSpins;
+        if (remainingFreeSpinsText) remainingFreeSpinsText.text = $"{remainingSpins}";
+        if(remainingFreeSpinsTextPortrait) remainingFreeSpinsTextPortrait.text = $"{remainingSpins}";
     }
 
     #endregion
@@ -1102,16 +1197,7 @@ public class UIManager : MonoBehaviour
         SetTMPText(pingText, pingTextPortrait, content);
     }
 
-    [System.Serializable]
-    internal class JackpotValues
-    {
-        public string grandJackpot;
-        public string majorJackpot;
-        public string minorJackpot;
-        public string miniJackpot;
-    }
-
-    internal void UpdateJackpotDisplay(JackpotValues values)
+    internal void UpdateJackpotDisplay(Values values)
     {
         if (values == null) return;
 
@@ -1181,6 +1267,20 @@ public class UIManager : MonoBehaviour
         SetGameObjectActive(winTextObject, winTextObjectPortrait, showWinText);
     }
 
+    internal void UpdateFreeSpinTotalWin(double total)
+    {
+        if (freeSpinTotalWinTween != null) freeSpinTotalWinTween.Kill();
+
+        // double displayAmount = 0f;
+        // freeSpinTotalWinTween = DOTween.To(() => displayAmount, val =>
+        // {
+        //     displayAmount = val;
+        //     SetTMPText(FreeSpinTotalWinText, FreeSpinTotalWinTextPortrait, FormatAmount(val));
+        // }, total, 0.5f);
+
+        SetTMPText(FreeSpinTotalWinText, FreeSpinTotalWinTextPortrait, FormatAmount(total));
+    }
+
     #endregion
 
     #region Helper Methods
@@ -1205,7 +1305,10 @@ public class UIManager : MonoBehaviour
     {
         audioController.PlayUIButton(false);
         SetGameObjectActive(popup, popupPortrait, true);
-        SetGameObjectActive(mainPopupObject, mainPopupObjectPortrait, true);
+        if (popup != universalWinPopup || popupPortrait != universalWinPopupPortrait)
+        {
+            SetGameObjectActive(mainPopupObject, mainPopupObjectPortrait, true);
+        }
     }
 
     private void ClosePopup(GameObject popup, GameObject popupPortrait = null)
@@ -1268,7 +1371,7 @@ public class UIManager : MonoBehaviour
         BonusComplete
     }
 
-    internal void ShowUniversalWinPopup(WinPopupType type, double winAmount, int freeSpinCount = 0, System.Action onTakePressed = null)
+    internal void ShowUniversalWinPopup(WinPopupType type, double winAmount = 0, int freeSpinCount = 0, System.Action onTakePressed = null, double bonusMultiplier = 0)
     {
         if (universalWinPopup == null && universalWinPopupPortrait == null) return;
 
@@ -1283,20 +1386,30 @@ public class UIManager : MonoBehaviour
         SetGameObjectActive(uwpCongratulationsTitle, uwpCongratulationsTitlePortrait, false);
         SetGameObjectActive(uwpYouWonSubtitle, uwpYouWonSubtitlePortrait, false);
         SetGameObjectActive(uwpBigWinTitle, uwpBigWinTitlePortrait, false);
+        SetGameObjectActive(uwpFreeSpinTitle, uwpFreeSpinTitlePortrait, false);
+        if (uwpSparkleAnimation) uwpSparkleAnimation.gameObject.SetActive(false);
+        if (uwpSparkleAnimationPortrait) uwpSparkleAnimationPortrait.gameObject.SetActive(false);
         if (uwpWinAmountText) uwpWinAmountText.gameObject.SetActive(false);
         if (uwpWinAmountTextPortrait) uwpWinAmountTextPortrait.gameObject.SetActive(false);
         if (uwpFreeSpinCountText) uwpFreeSpinCountText.gameObject.SetActive(false);
         if (uwpFreeSpinCountTextPortrait) uwpFreeSpinCountTextPortrait.gameObject.SetActive(false);
         SetGameObjectActive(uwpFreeSpinTextObject, uwpFreeSpinObjectPortrait, false);
+        SetGameObjectActive(uwpBonusTriggerObject, uwpBonusTriggerObjectPortrait, false);
+        SetGameObjectActive(uwpBonusSubtitle, uwpBonusSubtitlePortrait, false);
+        if (uwpBonusWheelMultiplierText) uwpBonusWheelMultiplierText.gameObject.SetActive(false);
+        if (uwpBonusWheelMultiplierTextPortrait) uwpBonusWheelMultiplierTextPortrait.gameObject.SetActive(false);
+        if (uwpBonusWinText) uwpBonusWinText.gameObject.SetActive(false);
+        if (uwpBonusWinTextPortrait) uwpBonusWinTextPortrait.gameObject.SetActive(false);
 
         switch (type)
         {
             case WinPopupType.FreeSpinTrigger:
-                SetGameObjectActive(uwpCongratulationsTitle, uwpCongratulationsTitlePortrait, true);
-                SetGameObjectActive(uwpYouWonSubtitle, uwpYouWonSubtitlePortrait, true);
+                //SetGameObjectActive(uwpCongratulationsTitle, uwpCongratulationsTitlePortrait, true);
+                //SetGameObjectActive(uwpYouWonSubtitle, uwpYouWonSubtitlePortrait, true);
                 SetTMPText(uwpFreeSpinCountText, uwpFreeSpinCountTextPortrait, freeSpinCount.ToString());
                 if (uwpFreeSpinCountText) uwpFreeSpinCountText.gameObject.SetActive(true);
                 if (uwpFreeSpinCountTextPortrait) uwpFreeSpinCountTextPortrait.gameObject.SetActive(true);
+                SetGameObjectActive(uwpFreeSpinTitle, uwpFreeSpinTitlePortrait, true);
                 SetGameObjectActive(uwpFreeSpinTextObject, uwpFreeSpinObjectPortrait, true);
                 break;
 
@@ -1312,25 +1425,94 @@ public class UIManager : MonoBehaviour
                 if (uwpWinAmountText) { uwpWinAmountText.gameObject.SetActive(true); uwpWinAmountText.text = FormatAmount(winAmount); }
                 if (uwpWinAmountTextPortrait) { uwpWinAmountTextPortrait.gameObject.SetActive(true); uwpWinAmountTextPortrait.text = FormatAmount(winAmount); }
                 break;
+
+            case WinPopupType.BonusComplete:
+                SetGameObjectActive(uwpCongratulationsTitle, uwpCongratulationsTitlePortrait, true);
+                SetGameObjectActive(uwpBonusSubtitle, uwpBonusSubtitlePortrait, true);
+                if (uwpBonusWheelMultiplierText) { uwpBonusWheelMultiplierText.gameObject.SetActive(true); uwpBonusWheelMultiplierText.text = "x" + bonusMultiplier.ToString("0.##"); }
+                if (uwpBonusWheelMultiplierTextPortrait) { uwpBonusWheelMultiplierTextPortrait.gameObject.SetActive(true); uwpBonusWheelMultiplierTextPortrait.text = "x" + bonusMultiplier.ToString("0.##"); }
+                if (uwpBonusWinText) uwpBonusWinText.gameObject.SetActive(true);
+                if (uwpBonusWinTextPortrait) uwpBonusWinTextPortrait.gameObject.SetActive(true);
+                break;
         }
 
         bool showTakeButton = type != WinPopupType.BigWin;
         SetButtonActive(uwpTakeButton, uwpTakeButtonPortrait, showTakeButton);
-        SetButtonInteractable(uwpTakeButton, uwpTakeButtonPortrait, showTakeButton);
 
         OpenPopup(universalWinPopup, universalWinPopupPortrait);
 
-        AnimateUwpOpen(universalWinPopupRect);
-        AnimateUwpOpen(universalWinPopupRectPortrait);
-
-        if (winAmount > 0)
+        if (uwpAutoCloseCoroutine != null)
         {
-            AnimateUwpWinCount(uwpWinAmountText, winAmount, type == WinPopupType.BigWin);
-            AnimateUwpWinCount(uwpWinAmountTextPortrait, winAmount, type == WinPopupType.BigWin);
+            StopCoroutine(uwpAutoCloseCoroutine);
+            uwpAutoCloseCoroutine = null;
         }
 
-        if (uwpAutoCloseCoroutine != null) StopCoroutine(uwpAutoCloseCoroutine);
-        uwpAutoCloseCoroutine = StartCoroutine(AutoCloseUniversalWinPopup());
+        if (type == WinPopupType.FreeSpinTrigger)
+        {
+            SetButtonInteractable(uwpTakeButton, uwpTakeButtonPortrait, true);
+            if (uwpTakeButton) uwpTakeButton.interactable = false;
+            if (uwpTakeButtonPortrait) uwpTakeButtonPortrait.interactable = false;
+
+            if (universalWinPopupRect) universalWinPopupRect.localScale = Vector3.one;
+            if (universalWinPopupRectPortrait) universalWinPopupRectPortrait.localScale = Vector3.one * 0.6f;
+
+            if (FreeSpinTotalWinText) FreeSpinTotalWinText.text = FormatAmount(0);
+            if (FreeSpinTotalWinTextPortrait) FreeSpinTotalWinTextPortrait.text = FormatAmount(0);
+
+            uwpFreeSpinIntroSeqLandscape = AnimateFreeSpinTriggerIntro(universalWinPopup, uwpSparkleAnimation, uwpFreeSpinCountText, uwpFreeSpinTextObject, uwpFreeSpinTitle, MainFreeSpinObject, uwpTakeButton);
+            uwpFreeSpinIntroSeqPortrait = AnimateFreeSpinTriggerIntro(universalWinPopupPortrait, uwpSparkleAnimationPortrait, uwpFreeSpinCountTextPortrait, uwpFreeSpinObjectPortrait, uwpFreeSpinTitlePortrait, MainFreeSpinObjectPortrait, uwpTakeButtonPortrait);
+        }
+        else if (type == WinPopupType.FreeSpinComplete)
+        {
+            SetButtonInteractable(uwpTakeButton, uwpTakeButtonPortrait, false);
+            if (uwpTakeButton) uwpTakeButton.interactable = false;
+            if (uwpTakeButtonPortrait) uwpTakeButtonPortrait.interactable = false;
+
+            if (universalWinPopupRect) universalWinPopupRect.localScale = Vector3.one;
+            if (universalWinPopupRectPortrait) universalWinPopupRectPortrait.localScale = Vector3.one* 0.6f;
+
+            uwpFreeSpinCompleteIntroSeqLandscape = AnimateFreeSpinCompleteIntro(universalWinPopup, uwpCongratulationsTitle, uwpYouWonSubtitle, uwpWinAmountText, winAmount, false, uwpTakeButton, uwpBg, sideDiamonds, cornerDiamonds);
+            uwpFreeSpinCompleteIntroSeqPortrait = AnimateFreeSpinCompleteIntro(universalWinPopupPortrait, uwpCongratulationsTitlePortrait, uwpYouWonSubtitlePortrait, uwpWinAmountTextPortrait, winAmount, false, uwpTakeButtonPortrait, uwpBgPortrait, sideDiamondsPortrait, cornerDiamondsPortrait);
+        }
+        else if (type == WinPopupType.BonusTrigger)
+        {
+            SetButtonInteractable(uwpTakeButton, uwpTakeButtonPortrait, false);
+
+            if (universalWinPopupRect) universalWinPopupRect.localScale = Vector3.one;
+            if (universalWinPopupRectPortrait) universalWinPopupRectPortrait.localScale = Vector3.one* 0.6f;
+
+            SetGameObjectActive(uwpBonusTriggerObject, uwpBonusTriggerObjectPortrait, true);
+
+            uwpBonusTriggerIntroSeqLandscape = AnimateBonusTriggerIntro(universalWinPopup, uwpTakeButton);
+            uwpBonusTriggerIntroSeqPortrait = AnimateBonusTriggerIntro(universalWinPopupPortrait, uwpTakeButtonPortrait);
+        }
+        else if (type == WinPopupType.BonusComplete)
+        {
+            SetButtonInteractable(uwpTakeButton, uwpTakeButtonPortrait, false);
+            if (uwpTakeButton) uwpTakeButton.interactable = false;
+            if (uwpTakeButtonPortrait) uwpTakeButtonPortrait.interactable = false;
+
+            if (universalWinPopupRect) universalWinPopupRect.localScale = Vector3.one;
+            if (universalWinPopupRectPortrait) universalWinPopupRectPortrait.localScale = Vector3.one* 0.6f;
+
+            uwpBonusCompleteIntroSeqLandscape = AnimateBonusCompleteIntro(universalWinPopup, uwpCongratulationsTitle, uwpBonusSubtitle, uwpBonusWheelMultiplierText ? uwpBonusWheelMultiplierText.gameObject : null, uwpBonusWinText, winAmount, uwpTakeButton, uwpBg, sideDiamonds, cornerDiamonds);
+            uwpBonusCompleteIntroSeqPortrait = AnimateBonusCompleteIntro(universalWinPopupPortrait, uwpCongratulationsTitlePortrait, uwpBonusSubtitlePortrait, uwpBonusWheelMultiplierTextPortrait ? uwpBonusWheelMultiplierTextPortrait.gameObject : null, uwpBonusWinTextPortrait, winAmount, uwpTakeButtonPortrait, uwpBgPortrait, sideDiamondsPortrait, cornerDiamondsPortrait);
+        }
+        else
+        {
+            SetButtonInteractable(uwpTakeButton, uwpTakeButtonPortrait, showTakeButton);
+
+            AnimateUwpOpen(universalWinPopupRect);
+            AnimateUwpOpen(universalWinPopupRectPortrait);
+
+            if (winAmount > 0)
+            {
+                AnimateUwpWinCount(uwpWinAmountText, winAmount, type == WinPopupType.BigWin);
+                AnimateUwpWinCount(uwpWinAmountTextPortrait, winAmount, type == WinPopupType.BigWin);
+            }
+
+            uwpAutoCloseCoroutine = StartCoroutine(AutoCloseUniversalWinPopup());
+        }
     }
 
     private void AnimateUwpOpen(RectTransform rect)
@@ -1340,6 +1522,223 @@ public class UIManager : MonoBehaviour
         Sequence openSeq = DOTween.Sequence();
         openSeq.Append(rect.DOScale(1.2f, 0.5f).SetEase(Ease.OutCubic));
         openSeq.Append(rect.DOScale(1f, 0.3f).SetEase(Ease.InOutSine));
+    }
+
+    private Sequence AnimateFreeSpinTriggerIntro(GameObject popup, ImageAnimation sparkle, TMP_Text countText, GameObject freeSpinTextObj, GameObject FreeSpinTitle, GameObject mainFreeSpinObj, Button takeButton)
+    {
+        if (!popup) return null;
+
+        CanvasGroup cg = popup.GetComponent<CanvasGroup>();
+        if (cg == null) cg = popup.AddComponent<CanvasGroup>();
+        cg.alpha = 0f;
+
+        RectTransform countTextRect = countText ? countText.rectTransform : null;
+        if (countTextRect)
+        {
+            countTextRect.localScale = Vector3.one * 0;
+            countTextRect.anchoredPosition = new Vector2(0f, countTextRect.anchoredPosition.y);
+        }
+        if (freeSpinTextObj) freeSpinTextObj.transform.localScale = Vector3.zero;
+        if (mainFreeSpinObj) mainFreeSpinObj.transform.localScale = Vector3.one;
+        if (FreeSpinTitle) FreeSpinTitle.transform.localScale = Vector3.zero;
+
+        Sequence seq = DOTween.Sequence();
+        seq.Append(cg.DOFade(1f, 0.5f));
+        seq.AppendCallback(() =>
+        {
+            if (sparkle) sparkle.gameObject.SetActive(true);
+            if (sparkle) sparkle.StartAnimation();
+        });
+        seq.AppendInterval(0.5f);
+        seq.AppendCallback(() =>
+        {
+            if (countTextRect)
+            {
+                countTextRect.DOScale(1f, 1f).SetEase(Ease.OutBack);
+                if (FreeSpinTitle) FreeSpinTitle.transform.DOScale(1f, 1f).SetEase(Ease.OutBack);
+            }
+        });
+        seq.AppendInterval(1f);
+        seq.AppendCallback(() =>
+        {
+            if (countTextRect) countTextRect.DOAnchorPosX(-270f, uwpFreeSpinGroupScaleDuration).SetEase(Ease.OutCubic);
+            if (freeSpinTextObj) freeSpinTextObj.transform.DOScale(1f, uwpFreeSpinGroupScaleDuration).SetEase(Ease.OutBack);
+        });
+        //seq.Append(uwpFreeSpinTitle.transform.DOScale(1f, 1f).SetEase(Ease.OutBack));
+        seq.AppendInterval(uwpFreeSpinGroupScaleDuration);
+        if (mainFreeSpinObj)
+        {
+            seq.Append(mainFreeSpinObj.transform.DOScale(1.15f, uwpFreeSpinPopLegDuration).SetEase(Ease.OutQuad));
+            seq.Append(mainFreeSpinObj.transform.DOScale(1f, uwpFreeSpinPopLegDuration).SetEase(Ease.InQuad));
+        }
+        seq.OnComplete(() =>
+        {
+            if (takeButton) takeButton.interactable = true;
+            if (uwpAutoCloseCoroutine == null) uwpAutoCloseCoroutine = StartCoroutine(AutoCloseUniversalWinPopup());
+        });
+
+        return seq;
+    }
+
+    private Sequence AnimateFreeSpinCompleteIntro(GameObject popup, GameObject congratsTitle, GameObject subtitle, TMP_Text winAmountText, double winAmount, bool isBigWin, Button takeButton, ImageAnimation bg, GameObject sideDiamondsObj, GameObject cornerDiamondsObj)
+    {
+        if (!popup) return null;
+
+        CanvasGroup cg = popup.GetComponent<CanvasGroup>();
+        if (cg == null) cg = popup.AddComponent<CanvasGroup>();
+        cg.alpha = 0f;
+
+        if (congratsTitle) congratsTitle.transform.localScale = Vector3.zero;
+
+        CanvasGroup subtitleCg = null;
+        if (subtitle)
+        {
+            subtitleCg = subtitle.GetComponent<CanvasGroup>();
+            if (subtitleCg == null) subtitleCg = subtitle.AddComponent<CanvasGroup>();
+            subtitleCg.alpha = 0f;
+        }
+
+        CanvasGroup winAmountCg = null;
+        if (winAmountText)
+        {
+            winAmountCg = winAmountText.GetComponent<CanvasGroup>();
+            if (winAmountCg == null) winAmountCg = winAmountText.gameObject.AddComponent<CanvasGroup>();
+            winAmountCg.alpha = 0f;
+        }
+
+        float halfDuration = uwpFreeSpinCompleteTitleScaleDuration * 0.5f;
+
+        Sequence seq = DOTween.Sequence();
+        seq.Append(cg.DOFade(1f, 0.5f));
+        seq.AppendCallback(() =>
+        {
+            StartPopupBgPulse(bg, sideDiamondsObj, cornerDiamondsObj);
+            if (congratsTitle) congratsTitle.transform.DOScale(1f, uwpFreeSpinCompleteTitleScaleDuration).SetEase(Ease.OutBack);
+        });
+        seq.AppendInterval(halfDuration);
+        seq.AppendCallback(() =>
+        {
+            if (subtitleCg) subtitleCg.DOFade(1f, halfDuration);
+            if (winAmountCg) winAmountCg.DOFade(1f, halfDuration);
+            if (winAmountText) AnimateUwpWinCount(winAmountText, winAmount, isBigWin);
+        });
+        seq.AppendInterval(halfDuration);
+        seq.OnComplete(() =>
+        {
+            if (takeButton) takeButton.interactable = true;
+            if (uwpAutoCloseCoroutine == null) uwpAutoCloseCoroutine = StartCoroutine(AutoCloseUniversalWinPopup());
+        });
+
+        return seq;
+    }
+
+    private Sequence AnimateBonusTriggerIntro(GameObject popup, Button takeButton)
+    {
+        if (!popup) return null;
+
+        CanvasGroup cg = popup.GetComponent<CanvasGroup>();
+        if (cg == null) cg = popup.AddComponent<CanvasGroup>();
+        cg.alpha = 0f;
+
+        Sequence seq = DOTween.Sequence();
+        seq.Append(cg.DOFade(1f, 0.5f));
+        seq.OnComplete(() =>
+        {
+            if (takeButton) takeButton.interactable = true;
+            if (uwpAutoCloseCoroutine == null) uwpAutoCloseCoroutine = StartCoroutine(AutoCloseUniversalWinPopup());
+        });
+
+        return seq;
+    }
+
+    private Sequence AnimateBonusCompleteIntro(GameObject popup, GameObject congratsTitle, GameObject subtitle, GameObject multiplierText, TMP_Text winText, double bonusWinAmount, Button takeButton, ImageAnimation bg, GameObject sideDiamondsObj, GameObject cornerDiamondsObj)
+    {
+        if (!popup) return null;
+
+        CanvasGroup cg = popup.GetComponent<CanvasGroup>();
+        if (cg == null) cg = popup.AddComponent<CanvasGroup>();
+        cg.alpha = 0f;
+
+        if (congratsTitle) congratsTitle.transform.localScale = Vector3.zero;
+
+        CanvasGroup subtitleCg = null;
+        if (subtitle)
+        {
+            subtitleCg = subtitle.GetComponent<CanvasGroup>();
+            if (subtitleCg == null) subtitleCg = subtitle.AddComponent<CanvasGroup>();
+            subtitleCg.alpha = 0f;
+        }
+
+        CanvasGroup multiplierCg = null;
+        if (multiplierText)
+        {
+            multiplierCg = multiplierText.GetComponent<CanvasGroup>();
+            if (multiplierCg == null) multiplierCg = multiplierText.AddComponent<CanvasGroup>();
+            multiplierCg.alpha = 0f;
+        }
+
+        CanvasGroup winCg = null;
+        if (winText)
+        {
+            winCg = winText.GetComponent<CanvasGroup>();
+            if (winCg == null) winCg = winText.gameObject.AddComponent<CanvasGroup>();
+            winCg.alpha = 0f;
+        }
+
+        float halfDuration = uwpFreeSpinCompleteTitleScaleDuration * 0.5f;
+
+        Sequence seq = DOTween.Sequence();
+        seq.Append(cg.DOFade(1f, 0.5f));
+        seq.AppendCallback(() =>
+        {
+            StartPopupBgPulse(bg, sideDiamondsObj, cornerDiamondsObj);
+            if (congratsTitle) congratsTitle.transform.DOScale(1f, uwpFreeSpinCompleteTitleScaleDuration).SetEase(Ease.OutBack);
+        });
+        seq.AppendInterval(halfDuration);
+        seq.AppendCallback(() =>
+        {
+            if (subtitleCg) subtitleCg.DOFade(1f, halfDuration);
+            if (multiplierCg) multiplierCg.DOFade(1f, halfDuration);
+            if (winCg) winCg.DOFade(1f, halfDuration);
+            if (winText) AnimateUwpWinCount(winText, bonusWinAmount, false);
+        });
+        seq.AppendInterval(halfDuration);
+        seq.OnComplete(() =>
+        {
+            if (takeButton) takeButton.interactable = true;
+            if (uwpAutoCloseCoroutine == null) uwpAutoCloseCoroutine = StartCoroutine(AutoCloseUniversalWinPopup());
+        });
+
+        return seq;
+    }
+
+    private void StartPopupBgPulse(ImageAnimation bg, GameObject sideDiamondsObj, GameObject cornerDiamondsObj)
+    {
+        if (bg) bg.StartAnimation();
+
+        if (sideDiamondsObj)
+        {
+            sideDiamondsObj.transform.DOKill();
+            sideDiamondsObj.transform.localScale = Vector3.one;
+            sideDiamondsObj.transform.DOScale(0.97f, 0.7f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
+        }
+        if (cornerDiamondsObj)
+        {
+            cornerDiamondsObj.transform.DOKill();
+            cornerDiamondsObj.transform.localScale = Vector3.one * 0.97f;
+            cornerDiamondsObj.transform.DOScale(1f, 0.7f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
+        }
+    }
+
+    private void StopPopupBgPulse()
+    {
+        if (uwpBg) uwpBg.StopAnimation();
+        if (uwpBgPortrait) uwpBgPortrait.StopAnimation();
+
+        if (sideDiamonds) sideDiamonds.transform.DOKill();
+        if (cornerDiamonds) cornerDiamonds.transform.DOKill();
+        if (sideDiamondsPortrait) sideDiamondsPortrait.transform.DOKill();
+        if (cornerDiamondsPortrait) cornerDiamondsPortrait.transform.DOKill();
     }
 
     private void AnimateUwpWinCount(TMP_Text text, double winAmount, bool isBigWin)
@@ -1385,11 +1784,60 @@ public class UIManager : MonoBehaviour
             uwpWinTween = null;
         }
 
+        if (uwpFreeSpinIntroSeqLandscape != null)
+        {
+            uwpFreeSpinIntroSeqLandscape.Kill();
+            uwpFreeSpinIntroSeqLandscape = null;
+        }
+        if (uwpFreeSpinIntroSeqPortrait != null)
+        {
+            uwpFreeSpinIntroSeqPortrait.Kill();
+            uwpFreeSpinIntroSeqPortrait = null;
+        }
+        if (uwpSparkleAnimation) uwpSparkleAnimation.StopAnimation();
+        if (uwpSparkleAnimationPortrait) uwpSparkleAnimationPortrait.StopAnimation();
+
+        if (uwpFreeSpinCompleteIntroSeqLandscape != null)
+        {
+            uwpFreeSpinCompleteIntroSeqLandscape.Kill();
+            uwpFreeSpinCompleteIntroSeqLandscape = null;
+        }
+        if (uwpFreeSpinCompleteIntroSeqPortrait != null)
+        {
+            uwpFreeSpinCompleteIntroSeqPortrait.Kill();
+            uwpFreeSpinCompleteIntroSeqPortrait = null;
+        }
+        StopPopupBgPulse();
+
+        if (uwpBonusTriggerIntroSeqLandscape != null)
+        {
+            uwpBonusTriggerIntroSeqLandscape.Kill();
+            uwpBonusTriggerIntroSeqLandscape = null;
+        }
+        if (uwpBonusTriggerIntroSeqPortrait != null)
+        {
+            uwpBonusTriggerIntroSeqPortrait.Kill();
+            uwpBonusTriggerIntroSeqPortrait = null;
+        }
+
+        if (uwpBonusCompleteIntroSeqLandscape != null)
+        {
+            uwpBonusCompleteIntroSeqLandscape.Kill();
+            uwpBonusCompleteIntroSeqLandscape = null;
+        }
+        if (uwpBonusCompleteIntroSeqPortrait != null)
+        {
+            uwpBonusCompleteIntroSeqPortrait.Kill();
+            uwpBonusCompleteIntroSeqPortrait = null;
+        }
+
         if (uwpAutoCloseCoroutine != null)
         {
             StopCoroutine(uwpAutoCloseCoroutine);
             uwpAutoCloseCoroutine = null;
         }
+
+        SetButtonActive(uwpTakeButton, uwpTakeButtonPortrait, false);
 
         var callback = universalWinPopupCallback;
         universalWinPopupCallback = null;
@@ -1418,11 +1866,11 @@ public class UIManager : MonoBehaviour
 
     #region Bonus Background Toggle
 
-    internal void ToggleBonusBackground(bool isBonus)
-    {
-        if (bgImage == null) return;
-        bgImage.sprite = isBonus ? redSprite : blueSprite;
-    }
+    // internal void ToggleBonusBackground(bool isBonus)
+    // {
+    //     if (bgImage == null) return;
+    //     bgImage.sprite = isBonus ? redSprite : blueSprite;
+    // }
 
     #endregion
 
@@ -1432,54 +1880,12 @@ public class UIManager : MonoBehaviour
     {
         // if (bgAnimationRoutine != null) StopCoroutine(bgAnimationRoutine);
         // bgAnimationRoutine = StartCoroutine(BGAnimationRoutine());
+        bgImage.StartAnimation();
     }
 
     internal void StopBGAnimation()
     {
-        if (bgAnimationRoutine != null)
-        {
-            StopCoroutine(bgAnimationRoutine);
-            bgAnimationRoutine = null;
-        }
-    }
-
-    private IEnumerator BGAnimationRoutine()
-    {
-        WaitForSeconds spawnInterval = new WaitForSeconds(0.1f);
-
-        while (socketManager != null && socketManager.isConnected)
-        {
-            SpawnShineParticle();
-            yield return spawnInterval;
-        }
-    }
-
-    private void SpawnShineParticle()
-    {
-        if (shinePrefab == null || shineParentRect == null) return;
-
-        float x = Random.Range(-960f, 960f);
-        float y = Random.Range(-540f, 540f);
-
-        GameObject shine = Instantiate(shinePrefab, shineParentRect);
-        shine.transform.localPosition = new Vector2(x, y);
-        shine.transform.localScale = Vector3.zero;
-
-        if (shine.TryGetComponent(out CanvasGroup cg))
-        {
-            cg.alpha = 0f;
-
-            Sequence shineSeq = DOTween.Sequence();
-            shineSeq.Append(shine.transform.DOScale(1f, 1f).SetEase(Ease.Linear));
-            shineSeq.Join(cg.DOFade(1f, 1f).SetEase(Ease.Linear));
-            shineSeq.Append(shine.transform.DOScale(0f, 1f).SetEase(Ease.Linear));
-            shineSeq.Join(cg.DOFade(0f, 1f).SetEase(Ease.Linear));
-            shineSeq.OnComplete(() => Destroy(shine));
-        }
-        else
-        {
-            Destroy(shine);
-        }
+        bgImage.StopAnimation();
     }
 
     #endregion
@@ -1498,8 +1904,10 @@ public class UIManager : MonoBehaviour
         UpdateWin(0.00);
         UpdateBetDisplay();
 
-        //bonusManager.IntializeBonusWheelValue();
-        StartBGAnimation();
+        bonusManager.IntializeBonusWheelValue();
+        //StartBGAnimation();
+        UpdateHeatUpText(root.uiData.paylines.symbols[9].multiplier);
+        UpdateJackpotDisplay(root.jackpotData.values);
     }
 
     internal void SetBetButtonsInteractable(bool interactable)

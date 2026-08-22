@@ -1,38 +1,38 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UI;
 internal class AudioController : MonoBehaviour
 {
     [Header("Audio Sources")]
     [SerializeField] private AudioSource bgMusicSource;
     [SerializeField] private AudioSource gameSoundSource;
-    // [SerializeField] private AudioSource uiSource;
 
     [Header("Background")]
-    [SerializeField] private AudioClip bgMusic;
-    [SerializeField] private AudioClip bonusbgMusic;
+    [SerializeField] private AudioClip bgMusic; // bg .mp3
 
-    [Header("Game Sounds")]
+    [Header("Bonus Wheel (no dedicated clip yet — leave unassigned to stay silent)")]
     [SerializeField] private AudioClip WheelArrowTick;
-    [SerializeField] private AudioClip WheelBlackOverlay;
-    [SerializeField] private AudioClip BigWin;
     [SerializeField] private AudioClip WheelArrowStop;
-    [SerializeField] private AudioClip uiButton;
-    [SerializeField] private AudioClip normalWin;
-    [SerializeField] private AudioClip bonusComplete;
-    [SerializeField] private AudioClip ReelHit;
-    [SerializeField] private AudioClip reelSpinning;
-    [SerializeField] private AudioClip bonusHit;
 
-    // [Header("UI Sounds")]
-    // [SerializeField] private AudioClip uiButton;
+    [Header("Reel Sounds")]
+    [SerializeField] private AudioClip reelSpinning;   // spinning.mp3
+    [SerializeField] private AudioClip reelStop;        // spin stop.mp3
 
-    // [Header("Sound Buttons")]
-    // [SerializeField] private Button SoundButton;
-    // [SerializeField] private Button SoundMuteButton;
-    // [SerializeField] private Button MusicButton;
-    // [SerializeField] private Button MusicMuteButton;
+    [Header("UI Sounds")]
+    [SerializeField] private AudioClip uiButton;        // universal all button.mp3
+    [SerializeField] private AudioClip maxBet;          // max bet.mp3
+    [SerializeField] private AudioClip turboActivate;   // turbo rocket.mp3
+    [SerializeField] private AudioClip autoplayOpen;    // hold for auto.mp3
+    [SerializeField] private AudioClip autoplaySelect;  // hold for auto numbers select.mp3
+
+    [Header("Win Line Sounds")]
+    [SerializeField] private AudioClip winLineIntro;      // icons in machine.mp3 — one-shot at the start of a win line display
+    [SerializeField] private AudioClip paylineHighlight;  // paylines in slot.mp3 — plays as each line is cycled through
+
+    [Header("Feature Sounds")]
+    [SerializeField] private AudioClip heatEmUp;            // hit em up.mp3
+    [SerializeField] private AudioClip scatterTrigger;      // 3 free spin in slot.mp3
+    [SerializeField] private AudioClip freeSpinsWon;        // you won free spins.mp3
+    [SerializeField] private AudioClip freeSpinsWinAmount;  // win amount in free spins .mp3
 
     private bool isGameMuted = false;
     private bool isMusicMuted = false;
@@ -76,82 +76,14 @@ internal class AudioController : MonoBehaviour
         if (bgMusicSource) bgMusicSource.volume = _musicVolume;
         if (gameSoundSource) gameSoundSource.volume = _sfxVolume;
 
-        // if (SoundButton)
-        // {
-        //     SoundButton.onClick.RemoveAllListeners();
-        //     SoundButton.onClick.AddListener(ToggleGameSound);
-        // }
-
-        // if (MusicButton)
-        // {
-        //     MusicButton.onClick.RemoveAllListeners();
-        //     MusicButton.onClick.AddListener(ToggleBackgroundMusic);
-        // }
-
-        // if (SoundMuteButton)
-        // {
-        //     SoundMuteButton.onClick.RemoveAllListeners();
-        //     SoundMuteButton.onClick.AddListener(ToggleGameSound);
-        // }
-
-        // if (MusicMuteButton)
-        // {
-        //     MusicMuteButton.onClick.RemoveAllListeners();
-        //     MusicMuteButton.onClick.AddListener(ToggleBackgroundMusic);
-        // }
-
         PlayBackground();
     }
-
-    // private void ToggleGameSound()
-    // {
-    //     Debug.Log("button pressed!");
-    //     if (!isGameMuted)
-    //     {
-    //         SoundMuteButton.gameObject.SetActive(true);
-    //         SoundButton.gameObject.SetActive(false);
-    //     }
-    //     else
-    //     {
-    //         SoundButton.gameObject.SetActive(true);
-    //         SoundMuteButton.gameObject.SetActive(false);
-    //     }
-    //     isGameMuted = !isGameMuted;
-    //     MuteGame(isGameMuted);
-    // }
-
-    // private void ToggleBackgroundMusic()
-    // {
-    //     if (!isMusicMuted)
-    //     {
-    //         MusicMuteButton.gameObject.SetActive(true);
-    //         MusicButton.gameObject.SetActive(false);
-    //     }
-    //     else
-    //     {
-    //         MusicButton.gameObject.SetActive(true);
-    //         MusicMuteButton.gameObject.SetActive(false);
-    //     }
-    //     isMusicMuted = !isMusicMuted;
-    //     MuteBackground(isMusicMuted);
-    // }
-
 
     internal void PlayBackground()
     {
         if (!bgMusic) return;
 
         bgMusicSource.clip = bgMusic;
-        bgMusicSource.loop = true;
-        if (!bgMusicSource.isPlaying)
-            bgMusicSource.Play();
-    }
-
-    internal void PlayBonusBackground()
-    {
-        if (!bonusbgMusic) return;
-
-        bgMusicSource.clip = bonusbgMusic;
         bgMusicSource.loop = true;
         if (!bgMusicSource.isPlaying)
             bgMusicSource.Play();
@@ -167,42 +99,74 @@ internal class AudioController : MonoBehaviour
         PlayGame(WheelArrowTick, loop);
     }
 
-    internal void PlayWheelBlackOverlay(bool loop)
-    {
-        PlayGame(WheelBlackOverlay, loop);
-    }
-
-    internal void PlayBigWin(bool loop)
-    {
-        PlayGame(BigWin, loop);
-    }
     internal void PlayWheelArrowStop(bool loop)
     {
         PlayGame(WheelArrowStop, loop);
     }
-    internal void PlayUIButton(bool loop)
-    {
-        PlayGame(uiButton, loop);
-    }
-    internal void PlayNormalWin(bool loop)
-    {
-        PlayGame(normalWin, loop);
-    }
-    internal void PlayBonusComplete(bool loop)
-    {
-        PlayGame(bonusComplete, loop);
-    }
-    internal void PlayReelHit(bool loop)
-    {
-        PlayGame(ReelHit, loop);
-    }
+
     internal void PlayReelSpinning(bool loop)
     {
         PlayGame(reelSpinning, loop);
     }
-    internal void PlayBonusHit(bool loop)
+
+    internal void PlayReelStop(bool loop = false)
     {
-        PlayGame(bonusHit, loop);
+        PlayGame(reelStop, loop);
+    }
+
+    internal void PlayUIButton(bool loop)
+    {
+        PlayGame(uiButton, loop);
+    }
+
+    internal void PlayMaxBet()
+    {
+        PlayGame(maxBet, false);
+    }
+
+    internal void PlayTurboActivate()
+    {
+        PlayGame(turboActivate, false);
+    }
+
+    internal void PlayAutoplayOpen()
+    {
+        PlayGame(autoplayOpen, false);
+    }
+
+    internal void PlayAutoplaySelect()
+    {
+        PlayGame(autoplaySelect, false);
+    }
+
+    internal void PlayWinLineIntro()
+    {
+        PlayGame(winLineIntro, false);
+    }
+
+    internal void PlayPaylineHighlight()
+    {
+        PlayGame(paylineHighlight, false);
+    }
+
+    internal void PlayHeatEmUp()
+    {
+        PlayGame(heatEmUp, false);
+    }
+
+    internal void PlayScatterTrigger()
+    {
+        PlayGame(scatterTrigger, false);
+    }
+
+    internal void PlayFreeSpinsWon()
+    {
+        PlayGame(freeSpinsWon, false);
+    }
+
+    internal void PlayFreeSpinsWinAmount()
+    {
+        PlayGame(freeSpinsWinAmount, false);
     }
 
     private void PlayGame(AudioClip clip, bool loop)
@@ -220,11 +184,6 @@ internal class AudioController : MonoBehaviour
         gameSoundSource.Stop();
         gameSoundSource.loop = false;
     }
-
-    // internal void PlayUIButton()
-    // {
-    //     gameSoundSource.PlayOneShot(uiButton);
-    // }
 
     // Focus-driven — called from BOTH UIManager.OnFocusChanged (JS path) and OnApplicationFocus below.
     internal void SetMuteAll(bool forceMute)
@@ -259,7 +218,6 @@ internal class AudioController : MonoBehaviour
         gameSoundSource.mute = mute;
         if (isForceMuted) preFocusMuteState[gameSoundSource] = mute;
     }
-    // internal void MuteUI(bool mute) => uiSource.mute = mute;
 
     private void OnApplicationFocus(bool hasFocus)
     {

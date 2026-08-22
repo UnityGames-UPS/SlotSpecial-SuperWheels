@@ -31,6 +31,7 @@ public class SocketIOManager : MonoBehaviour
   internal UiData initUIData = null;
   internal GameData initialData = null;
   internal Features features = null;
+  internal Values values = null;
   internal bool isResultdone = false;
   internal bool SetInit = false;
 
@@ -47,9 +48,11 @@ public class SocketIOManager : MonoBehaviour
   private float lastPongTime = 0f;      //
   private float pingInterval = 2f;     //
   private bool waitingForPong = false;     //
-  private int missedPongs = 0;            // 
+  private int missedPongs = 0;            //
   private const int MaxMissedPongs = 10;       //
   private Coroutine PingRoutine; //Back2 end       //
+  private float pingSendTime = 0f;
+  [SerializeField] private bool enablePingDebug = false;
 
   [Header("Focus Timeout")]
   private bool hasFocus = true;
@@ -216,6 +219,7 @@ public class SocketIOManager : MonoBehaviour
     gameSocket.On<string>("pong", OnPongReceived); //Back2 Start
     gameSocket.On<string>("AnotherDevice", OnSocketOtherDevice);
     gameSocket.On<string>("balance:sync", OnBalanceSync);
+    gameSocket.On<string>("jackpot:sync", OnJackpotSyncReceived);
 
     manager.Open();
   }
@@ -241,7 +245,12 @@ public class SocketIOManager : MonoBehaviour
   private void OnDisconnected() //Back2 Start
   {
     Debug.LogWarning("⚠️ Disconnected from server.");
+    if (_uiManager != null)
+    {
+      _uiManager.UpdatePingDisplay("-- ms");
+    }
     isConnected = false;
+    pingSendTime = 0f;
     _uiManager.DisconnectionPopup();
     ResetPingRoutine();
   } //Back2 end
@@ -252,6 +261,21 @@ public class SocketIOManager : MonoBehaviour
     waitingForPong = false;
     missedPongs = 0;
     lastPongTime = Time.time;
+
+    if (pingSendTime > 0f)
+    {
+      float rtt = Time.realtimeSinceStartup - pingSendTime;
+      int pingMs = Mathf.Max(1, Mathf.RoundToInt(rtt * 1000f));
+      if (_uiManager != null)
+      {
+        _uiManager.UpdatePingDisplay(pingMs);
+      }
+
+      if (enablePingDebug)
+      {
+        Debug.Log($"[SocketIO] Pong received | Latency: {pingMs} ms");
+      }
+    }
     // Debug.Log($"⏱️ Updated last pong time: {lastPongTime}");
     // Debug.Log($"📦 Pong payload: {data}");
   } //Back2 end
@@ -284,6 +308,25 @@ public class SocketIOManager : MonoBehaviour
     playerdata.balance = syncPayload.balance;
 
     _uiManager.UpdateBalanceDisplay(syncPayload.balance);
+  }
+
+  private void OnJackpotSyncReceived(string jsonData)
+  {
+    Debug.Log($"[SocketIO] Jackpot Sync received: {jsonData}");
+
+    try
+    {
+      var syncData = JsonConvert.DeserializeObject<Root>(jsonData);
+
+      if (syncData != null && syncData.values != null && _uiManager != null)
+      {
+        _uiManager.UpdateJackpotDisplay(syncData.values);
+      }
+    }
+    catch (Exception e)
+    {
+      Debug.LogError($"[SocketIO] Jackpot Sync parse failed: {e.Message}");
+    }
   }
 
   private void OnListenEvent(string data)
@@ -360,6 +403,7 @@ public class SocketIOManager : MonoBehaviour
       // Send next ping
       waitingForPong = true;
       lastPongTime = Time.time;
+      pingSendTime = Time.realtimeSinceStartup;
       // Debug.Log("📤 Sending ping...");
       SendDataWithNamespace("ping");
       yield return new WaitForSeconds(pingInterval);
@@ -431,6 +475,7 @@ public class SocketIOManager : MonoBehaviour
           initialData = myData.gameData;
           initUIData = myData.uiData;
           features = myData.features;
+          values = myData.values;
 
           if (!SetInit)
           {
