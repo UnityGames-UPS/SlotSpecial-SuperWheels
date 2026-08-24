@@ -76,9 +76,9 @@ public class BonusManager : MonoBehaviour
         if (wheelStartRequested) return;
 
         if (audioController != null) audioController.PlayUIButton(false);
-        // Hide (not just disable) — this button shares its screen position with the
-        // universal win popup's Take button, which can appear later in this same sequence.
-        SetWheelStartButtonActive(false);
+        // Keep it visible but non-interactable — it shares its screen position with the
+        // universal win popup's Take button, so it's only hidden once that popup is about to show.
+        SetWheelStartButtonInteractable(false);
         wheelStartRequested = true;
     }
 
@@ -207,6 +207,8 @@ public class BonusManager : MonoBehaviour
         {
             bool popupClosed = false;
             audioController.PlayBonusWin();
+            // The Take button is about to appear in the same screen slot as the start button.
+            SetWheelStartButtonActive(false);
             uiManager.ShowUniversalWinPopup(UIManager.WinPopupType.BonusComplete, bonusData.totalAwardValue, 0,
                 () =>
                 {

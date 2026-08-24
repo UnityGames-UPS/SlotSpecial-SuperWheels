@@ -299,6 +299,7 @@ public class UIManager : MonoBehaviour
 
     private Tween balanceTween;
     private Tween winTween;
+    private double _currentWinDisplayAmount = 0;
     private int totalFreeSpinsAwarded = 0;
 
     private Coroutine bgAnimationRoutine;
@@ -740,7 +741,7 @@ public class UIManager : MonoBehaviour
             if (betCounter < 0) betCounter = socketManager.initialData.bets.Count - 1;
         }
 
-        if (increase && betCounter == socketManager.initialData.bets.Count - 1)
+        if (betCounter == socketManager.initialData.bets.Count - 1)
             audioController.PlayMaxBet();
         else
             audioController.PlayUIButton(false);
@@ -881,6 +882,7 @@ public class UIManager : MonoBehaviour
         panel.SetActive(true);
         CanvasGroup cg = panel.GetComponent<CanvasGroup>();
         if (cg == null) cg = panel.AddComponent<CanvasGroup>();
+        cg.DOKill();
         cg.alpha = 0f;
         cg.DOFade(1f, 0.35f);
     }
@@ -900,6 +902,7 @@ public class UIManager : MonoBehaviour
         if (!panel) return;
         CanvasGroup cg = panel.GetComponent<CanvasGroup>();
         if (cg == null) cg = panel.AddComponent<CanvasGroup>();
+        cg.DOKill();
         cg.DOFade(0f, 0.35f).OnComplete(() => panel.SetActive(false));
     }
 
@@ -917,7 +920,11 @@ public class UIManager : MonoBehaviour
     {
         if (!panel) return;
         CanvasGroup cg = panel.GetComponent<CanvasGroup>();
-        if (cg != null) cg.alpha = 0f;
+        if (cg != null)
+        {
+            cg.DOKill();
+            cg.alpha = 0f;
+        }
         panel.SetActive(false);
     }
 
@@ -1074,6 +1081,9 @@ public class UIManager : MonoBehaviour
 
     private IEnumerator EndFreeSpinsTransitionSequence()
     {
+        // Take was just pressed on the FreeSpinComplete popup — autospin is now clear to proceed.
+        slotManager.isFreeSpinCompletePopupPending = false;
+
         if (transitionBackFilm != null)
         {
             transitionBackFilm.gameObject.SetActive(true);
@@ -1236,15 +1246,17 @@ public class UIManager : MonoBehaviour
 
         if (doAnimate)
         {
-            double displayAmount = 0f;
+            double displayAmount = _currentWinDisplayAmount;
             winTween = DOTween.To(() => displayAmount, val =>
             {
                 displayAmount = val;
+                _currentWinDisplayAmount = val;
                 SetTMPText(winAmountText, winAmountTextPortrait, val.ToString("F2"));
             }, winAmount, 1.5f);
         }
         else
         {
+            _currentWinDisplayAmount = winAmount;
             SetTMPText(winAmountText, winAmountTextPortrait, winAmount.ToString("F2"));
         }
 

@@ -57,6 +57,9 @@ public class SlotManager : MonoBehaviour
     private bool _isTurboOn;
     private bool isTweening = false;
     private double _freeSpinsRoundWinTotal = 0;
+    // True from the moment the FreeSpinComplete popup is shown until its Take button is pressed.
+    // Autospin must not start the next round while this is true.
+    internal bool isFreeSpinCompletePopupPending = false;
 
     internal enum SpinSpeed { Normal, Turbo, QuickSpin }
     internal SpinSpeed currentSpinSpeed = SpinSpeed.Normal;
@@ -163,6 +166,8 @@ public class SlotManager : MonoBehaviour
         {
             StartSlots(_isAutoSpin);
             yield return new WaitUntil(() => !_isSpinning);
+            // Don't start the next round while the free-spins-complete popup is still waiting for Take.
+            yield return new WaitUntil(() => !isFreeSpinCompletePopupPending);
 
             if (autoSpinRoundsRemaining > 0)
             {
@@ -250,7 +255,8 @@ public class SlotManager : MonoBehaviour
         {
             uiManager.UpdateFreeSpinCount(--freeSpinsRemaining);
         }
-        uiManager.UpdateWin(0.00);
+        // During free spins, keep showing the accumulated round total instead of resetting to 0 each spin.
+        uiManager.UpdateWin(isInFreeSpins ? _freeSpinsRoundWinTotal : 0.00);
         yield return null;
 
         ResetOverlays();
@@ -336,7 +342,17 @@ public class SlotManager : MonoBehaviour
         if (HeatUpCount > 1)
         {
             audioController.PlayHeatEmUp();
-            uiManager.UpdateWin(socketManager.resultData.payload.heatEmUpWin, false);
+            double heatUpWin = socketManager.resultData.payload.heatEmUpWin;
+            if (isInFreeSpins)
+            {
+                _freeSpinsRoundWinTotal += heatUpWin;
+                uiManager.UpdateFreeSpinTotalWin(_freeSpinsRoundWinTotal);
+                uiManager.UpdateWin(_freeSpinsRoundWinTotal, false);
+            }
+            else
+            {
+                uiManager.UpdateWin(heatUpWin, false);
+            }
             if (HeatUpCount > HeatUpFireObjects.Count + 1)
             {
                 HeatUpCount = HeatUpFireObjects.Count;
@@ -450,6 +466,7 @@ public class SlotManager : MonoBehaviour
         //if (!isInFreeSpins && socketManager.resultData.payload.isFreeSpinsTriggered)
         if (socketManager.resultData.payload.isFreeSpinsTriggered)
         {
+            bool wasAlreadyInFreeSpins = isInFreeSpins;
             audioController.PlayScatterTrigger();
             foreach (var obj in HeatUpFireObjects)
             {
@@ -498,7 +515,9 @@ public class SlotManager : MonoBehaviour
             yield return new WaitForSeconds(3f);
             uiManager.OnFreeSpinsTriggered(socketManager.resultData.payload.freeSpinsAdded);
             yield return new WaitUntil(() => isInFreeSpins);
-            _freeSpinsRoundWinTotal = 0;
+            // Only reset the round total on the initial trigger — a retrigger while free spins
+            // are already running should keep accumulating, not restart from 0.
+            if (!wasAlreadyInFreeSpins) _freeSpinsRoundWinTotal = 0;
         }
 
         _isSpinning = false;
@@ -513,6 +532,7 @@ public class SlotManager : MonoBehaviour
             }
             else
             {
+                isFreeSpinCompletePopupPending = true;
                 uiManager.OnFreeSpinsEnded(_freeSpinsRoundWinTotal);
             }
         }
@@ -528,7 +548,8 @@ public class SlotManager : MonoBehaviour
     private IEnumerator ShowWinLineAnimation(List<LineWin> winLines, double winAmount, bool oneShot = false)
     {
         audioController.PlayWinLineIntro();
-        uiManager.UpdateWin(winAmount, true);
+        // During free spins the "current win" text mirrors the running free-spin total, same as UpdateFreeSpinTotalWin.
+        uiManager.UpdateWin(isInFreeSpins ? _freeSpinsRoundWinTotal : winAmount, true);
         uiManager.UpdateBalance(uiManager.currentBalance + winAmount, true);
 
         if (_isAutoSpin || oneShot || isInFreeSpins)
@@ -588,6 +609,13 @@ public class SlotManager : MonoBehaviour
         }
 
         yield return new WaitForSeconds(2f);
+
+        if (oneShot)
+        {
+            // Autospin/free spins: the combined highlight above is enough — skip the
+            // one-line-at-a-time payline/payout breakdown entirely.
+            yield break;
+        }
 
         do
         {
