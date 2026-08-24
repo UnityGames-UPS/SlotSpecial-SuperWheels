@@ -30497,7 +30497,7 @@ MonoBehaviour:
   useSharedMaterial: 1
   doLoopAnimation: 1
   StartOnAwake: 0
-  AnimationSpeed: 80
+  AnimationSpeed: 90
   delayBetweenLoop: 0
   currentAnimationState: 0
 --- !u!1 &613528844
@@ -60540,7 +60540,7 @@ MonoBehaviour:
   useSharedMaterial: 1
   doLoopAnimation: 1
   StartOnAwake: 0
-  AnimationSpeed: 90
+  AnimationSpeed: 80
   delayBetweenLoop: 0
   currentAnimationState: 0
 --- !u!1 &1229327642
