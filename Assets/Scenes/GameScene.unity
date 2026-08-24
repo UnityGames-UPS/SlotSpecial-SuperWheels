@@ -8451,7 +8451,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -10187,8 +10187,11 @@ MonoBehaviour:
   bgMusicSource: {fileID: 216658445}
   gameSoundSource: {fileID: 216658444}
   bgMusic: {fileID: 8300000, guid: 94784544868f74f2c89c0a21f3a62b8f, type: 3}
-  WheelArrowTick: {fileID: 0}
-  WheelArrowStop: {fileID: 0}
+  WheelArrowTick: {fileID: 8300000, guid: d1320313d3f3544ceae927c604d8d67b, type: 3}
+  WheelArrowStop: {fileID: 8300000, guid: 207667e9d93e44216b9e6f7c4295cecd, type: 3}
+  bonusWheelTrigger: {fileID: 8300000, guid: b4483bf13f3a74bfd98acdab0ab76cf3, type: 3}
+  bonusWin: {fileID: 8300000, guid: a84d08008f9b042dcb418fffaf826360, type: 3}
+  rocketBackground: {fileID: 8300000, guid: b73fabf675d254fa685e82719f3bf832, type: 3}
   reelSpinning: {fileID: 8300000, guid: 17df6040efdbb45b490aa9f9ad193784, type: 3}
   reelStop: {fileID: 8300000, guid: 6080b252d9b294c749df300cea135642, type: 3}
   uiButton: {fileID: 8300000, guid: cddc0f245e4b84b649d95fab74dece58, type: 3}
@@ -24943,7 +24946,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -26392,7 +26395,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -27965,7 +27968,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -29934,7 +29937,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -30384,7 +30387,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 8713725102053923520, guid: 1c4dc3b66537a43d197222d5e6a19799, type: 3}
+  m_Sprite: {fileID: 1583315341685969921, guid: 3ff8c74b6f8ba462a8d1f8b2467b4c4c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -30415,65 +30418,86 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ImageAnimation
   textureArray:
-  - {fileID: -4372624254609052858, guid: 94ee2dd7c6e704983a3e70d12b224867, type: 3}
-  - {fileID: 7997432699191109575, guid: 40bfad268e2bd4f56b61f5752b79c2e9, type: 3}
-  - {fileID: -8343616523384197460, guid: 6c3efda33f5bd4e6ab2a539e25f23221, type: 3}
-  - {fileID: -2995514145059268212, guid: ca8c6df13ab1f49f9a2e07e16301b2e0, type: 3}
-  - {fileID: 1208877888485038435, guid: 28d7f29bb63534d609bdbfb68fa78ad9, type: 3}
-  - {fileID: -1477540220161492024, guid: 039a349ecd3be47e1ad0f553f30df620, type: 3}
-  - {fileID: -1182675271135664273, guid: bdc17f7c243164c3fbdae5866fef890f, type: 3}
-  - {fileID: -4122754169383246658, guid: 3924338a55270408493a2410882b5d25, type: 3}
-  - {fileID: -7489378106739732005, guid: 7df7c439a3b504c0d8efcc18c11572e7, type: 3}
-  - {fileID: -555395039616143064, guid: 5f518aeb18b6c4537b4f01710ea0fdfa, type: 3}
-  - {fileID: -8738184947433634826, guid: 85b6dc5f6944a44eda8d366506c646d7, type: 3}
-  - {fileID: 2054704907923882413, guid: c432b03916bf34bdf9d8f868586f8396, type: 3}
-  - {fileID: -9179486092265926860, guid: 0d77265b6dd9043559aa986a3309f444, type: 3}
-  - {fileID: 8265923339843346863, guid: 0269d98344d834c379fabf11db7ef791, type: 3}
-  - {fileID: -5164047278286698229, guid: 98ae66f1b00044f3cb02792d945c3747, type: 3}
-  - {fileID: 5312494437057803393, guid: 86c6cb57f359c46d8826c46e5cc00596, type: 3}
-  - {fileID: -892511308697627950, guid: 0491cfec0ab23423e8b5119574cf59c1, type: 3}
-  - {fileID: -2142623269315767668, guid: 8f5f4c1b216804d699e79e9bc39a3f4a, type: 3}
-  - {fileID: 1654735971490548744, guid: fd396f825f0f94fb080f2cae63a90071, type: 3}
-  - {fileID: -7090261854097043058, guid: 50fd0956b974042e486b7c7bcbcf3405, type: 3}
-  - {fileID: 4252008019115461645, guid: a947c2008221c453cb8381c15b5d3bbd, type: 3}
-  - {fileID: -4570698600611320690, guid: a11c562d5697f47789c5f81e0e96184b, type: 3}
-  - {fileID: 5740295803374261178, guid: 0a68e3f73dd5f43d3b7bdc4e52835e5f, type: 3}
-  - {fileID: -5529756633599317283, guid: a9031c8f5ee124b8dae46a449de238ed, type: 3}
-  - {fileID: 7621696602323916792, guid: 13df52a20744247b89e51063834e11bf, type: 3}
-  - {fileID: 8620009346379958107, guid: 43b859b480d8d4a679e1a436d732acb1, type: 3}
-  - {fileID: -5015754452363712296, guid: b7467ac7ed1274d38baa32e62bf5d90f, type: 3}
-  - {fileID: -6215381738628483737, guid: 4c173f7e6168f449ea843d455bda0fd7, type: 3}
-  - {fileID: 1469825918871832374, guid: a0a0d76cbf4614a8bb34b520eda791c0, type: 3}
-  - {fileID: -585797787566148186, guid: 46ef2d1c0657f4dbcb5965927b8c923b, type: 3}
-  - {fileID: -5779473170833635948, guid: e40d1735a2028422b944cddc379e2ad3, type: 3}
-  - {fileID: -4745700778245448934, guid: a5e7e7b4537c34902b3d289e125dde75, type: 3}
-  - {fileID: -8593082347987581889, guid: 3725cc9dcef6c49139e4b3b7d5879290, type: 3}
-  - {fileID: 7279034064796797987, guid: e797d020d5dae471eb519090b4f67e21, type: 3}
-  - {fileID: 5109937931348126703, guid: a199bc91f6db542d7aa529d6ad4ae581, type: 3}
-  - {fileID: -7693309525131005777, guid: 94148384bc7bc41c9acb7599e6b640bf, type: 3}
-  - {fileID: -5413589639616378229, guid: e9b63e55e77914b4eb70ed4652869d3b, type: 3}
-  - {fileID: 1473039980365184977, guid: 00e82d91c12e54285be642f1d02eb4cc, type: 3}
-  - {fileID: 4282749860291239915, guid: a8c38eff7cb01420a960716b98e7d67c, type: 3}
-  - {fileID: -5659375702289444712, guid: 74203879273b04b4d849c0845585df33, type: 3}
-  - {fileID: -1582647685629418111, guid: 7366cdb802d9a4a43b14fbd27b50cb1e, type: 3}
-  - {fileID: -3141341007684609229, guid: f6560387d109245068c30a9575c156f6, type: 3}
-  - {fileID: -5541731246806109416, guid: 610bc8abc03b14393a719fbb73720a1e, type: 3}
-  - {fileID: 66155548325089173, guid: f1ad759cb7d034cd3aa72729f26f5fdb, type: 3}
-  - {fileID: -4175569928217236743, guid: 5858351652919440d8cd64e493575baf, type: 3}
-  - {fileID: -1223482172508738223, guid: d57ac7f855a2c4394b09141f0aaeb55a, type: 3}
-  - {fileID: -615396371841451956, guid: 838c0bce0f33c4bd0b91b389b0104ef1, type: 3}
-  - {fileID: 3791512366901585506, guid: 15d386bfa90044ed3a1d4272903ed147, type: 3}
-  - {fileID: -2909741403609026410, guid: edff53d4996594726b2fa318e84e5696, type: 3}
-  - {fileID: -4414915310843758120, guid: 1c35a9020f6894b71a99696548816093, type: 3}
-  - {fileID: 3403346343346383431, guid: b786042a8fac44bd5b8680a053defdf3, type: 3}
-  - {fileID: 5893887000244327198, guid: d7af00a2c8b9c4869835bc85b048e558, type: 3}
-  - {fileID: -561288869884406316, guid: 7dce1ea56d9a840199434815b245ac54, type: 3}
-  - {fileID: -2303815145882107285, guid: 0f4d359e9db644354a42f3ed08df6411, type: 3}
+  - {fileID: 1583315341685969921, guid: 3ff8c74b6f8ba462a8d1f8b2467b4c4c, type: 3}
+  - {fileID: 3660841423208186517, guid: 0bfacca7fc97b43eba839f4082a5f8f3, type: 3}
+  - {fileID: 4557404718332734455, guid: bc79a095351bc4d788b6e474e0bbdd6b, type: 3}
+  - {fileID: 7971125499909184619, guid: e74a4f97f4f7b4adc894bc844cb6c815, type: 3}
+  - {fileID: 5457410493676869083, guid: 437b2228d9bfd454fa6a43e5402e6e86, type: 3}
+  - {fileID: -1536148384563553002, guid: 018c57201fe0048b38fffdbb4dadba9b, type: 3}
+  - {fileID: 1516628477344651524, guid: 1c5914e37f13e404aaf61343c6f80445, type: 3}
+  - {fileID: -2654341944614127087, guid: b024d70f735c0421f920e12824ba4776, type: 3}
+  - {fileID: -6029494914230135254, guid: fe6ac4cb0f5b44446bff8a3fe54d3679, type: 3}
+  - {fileID: 3545891238784614992, guid: 9583091e2ceee42519e808af957b5630, type: 3}
+  - {fileID: 2746605413868683123, guid: 31137ed5b0cb0433e8ada18569797701, type: 3}
+  - {fileID: -7758083171569388946, guid: 1f8174411174d41c0a76eb065a0b989e, type: 3}
+  - {fileID: 6954982200688159758, guid: 1d2cdd3d9e69c42d0996568ce5fb77eb, type: 3}
+  - {fileID: 8396485220013672175, guid: 71295bc30191d4048ae0087225a29d1b, type: 3}
+  - {fileID: -387213835514590075, guid: c108f1e15851a433193c4c7e27c8bca7, type: 3}
+  - {fileID: -4851096074777226984, guid: 096a4eb775dba43289976018c552ac20, type: 3}
+  - {fileID: 2471645013695043685, guid: c7d4dc4304eba415ebc058591ff9cfcc, type: 3}
+  - {fileID: 6789666749095958947, guid: 3bec1affd512747e6ac03e0139b86f5a, type: 3}
+  - {fileID: 481693327974408802, guid: ba890f72d9a1644ec8e1c460e3778f46, type: 3}
+  - {fileID: 2536731004428119805, guid: 3b2ab58d468844ac6b59c8fc029dd813, type: 3}
+  - {fileID: -4925523435361530061, guid: fbe72fc0c76224b3891e91d81b66b757, type: 3}
+  - {fileID: 7868231378001107541, guid: 5d5a774a0da82408ebdbf48bf882e1bd, type: 3}
+  - {fileID: -1621342367864141959, guid: cd7c8bc4fbb54474fa09ef3c246871db, type: 3}
+  - {fileID: -3145786353800144102, guid: 1f9aff5c2ee9a4b1ca29960de67c2fba, type: 3}
+  - {fileID: 6979482661679392116, guid: da07b707a9c204303afa8c2bdf23a485, type: 3}
+  - {fileID: -2576904030885148303, guid: b39955f0e621b4f8494d0c21352df76d, type: 3}
+  - {fileID: 347180427828265626, guid: 20684bd65a97843eb87ca7e4837c6fea, type: 3}
+  - {fileID: 6503362480589882862, guid: f976d39dcfaa24c55a9a62fd31242f71, type: 3}
+  - {fileID: 3008267827851287433, guid: 1f4ce0e7c0d8e4cc7985e28523117af8, type: 3}
+  - {fileID: 1985442450797911206, guid: c9e918c5a54fc4daa8ee68abf9ab0dbf, type: 3}
+  - {fileID: -410924149922874710, guid: d2e0aef163bc84a34867ddb96afccb1a, type: 3}
+  - {fileID: 5266466895987736026, guid: 706f20a7f77a5416eb2511f6fbfc06b4, type: 3}
+  - {fileID: -2087255080448047843, guid: 54b572fa0f26a4e8aa37571b49d28546, type: 3}
+  - {fileID: 3736951757560549676, guid: 7e35bc2dcfd2d44f099c78658f1db055, type: 3}
+  - {fileID: -9031469753118196396, guid: 5573c917a897141f497e329bfb71f103, type: 3}
+  - {fileID: -3920691426702474458, guid: 6d22a559985a1425293643d963d72d7c, type: 3}
+  - {fileID: -5913239217396755549, guid: ea8daa7f59ed84c70b7db3746eaf38d8, type: 3}
+  - {fileID: 7077974934209542058, guid: a3ba5a8401ca7426c818dc6ec2152cbb, type: 3}
+  - {fileID: -1902799990072504350, guid: 168d360b82d584a4e89e5428b0f9b40d, type: 3}
+  - {fileID: 3927975821357356202, guid: 06cb1ed18ba934f4e9e98ccbcfb2aaec, type: 3}
+  - {fileID: 8564822258035673357, guid: 38692ff72ae5045bcaf919a8e00f84e2, type: 3}
+  - {fileID: -3360676389442463659, guid: 045c40959f4c7422f910cfb4852c398f, type: 3}
+  - {fileID: 4747640094568657060, guid: d63fd58c3a1e9403b87425741b4ec3f2, type: 3}
+  - {fileID: -8382588041013284068, guid: bd3f769f4e63e4d3ca29452745429667, type: 3}
+  - {fileID: -6372875369409023441, guid: 7d82fcbe0054843d4ab2406be5d23211, type: 3}
+  - {fileID: -7373944341893057922, guid: 09db5a15160c54019afe103214739cce, type: 3}
+  - {fileID: 6281120101251822374, guid: e48a8f703aac54ca6bbe5420a7a38739, type: 3}
+  - {fileID: 1033167470343270434, guid: e0a96a9c58bba4367bdf5056ccb6041b, type: 3}
+  - {fileID: 6133868921340672109, guid: 4784ce2e167864a00a7b0b3270bcf5cc, type: 3}
+  - {fileID: -7259537244533834518, guid: 1f2a4c8221c6a4f5fa795de3103a0031, type: 3}
+  - {fileID: -4601323581134880325, guid: 819e030a2f90d4a319949de219b70ef4, type: 3}
+  - {fileID: 4612267240467988658, guid: 8009bb711460549d1b48328c7816a17d, type: 3}
+  - {fileID: -4059042080607112452, guid: 3bfc7d9b3e31f4905aba82d5cc201ea3, type: 3}
+  - {fileID: 2955537874278292834, guid: a0f0a666372844c00a21030e2bb80825, type: 3}
+  - {fileID: -5998385895889672950, guid: 051e4f8c41aa743988cc3b35c0956544, type: 3}
+  - {fileID: 868613276071664718, guid: a4ad067fd629b450dae3a8c26163615f, type: 3}
+  - {fileID: 5716232045947048835, guid: 05f11f5458b834e6d85acd864acc88e1, type: 3}
+  - {fileID: 3901583984848209414, guid: 12b84fc4cd3f0483dbaa1dba7358adb8, type: 3}
+  - {fileID: -5747349997534293243, guid: e4d8fb2157d334567999cbd697c454fd, type: 3}
+  - {fileID: -3434673787161834657, guid: 28f2036f03b554ef3964b1996b16400b, type: 3}
+  - {fileID: 5011058299588470447, guid: 0e2020061419648d09c4a9d0f650227a, type: 3}
+  - {fileID: 1411118778730487657, guid: f9ec54333d1614c3f8de094c4a3d7eaf, type: 3}
+  - {fileID: 9197420733919839509, guid: e9917f811716847deb7dc6ad37b6d266, type: 3}
+  - {fileID: 4593437335258581102, guid: 4421dab0b744a493d98a0011c9116804, type: 3}
+  - {fileID: 3393339762683954780, guid: 3b612a55dc28d4a779cab486ea70131c, type: 3}
+  - {fileID: -5752494583199297011, guid: 314c0e5b6195d484d82b6de2f8a21344, type: 3}
+  - {fileID: -7762949921055588693, guid: a5b135d3890a347b9a057175dbba0639, type: 3}
+  - {fileID: 6826854152084752677, guid: 0e805ae2096ba4e1091b7eef319dc13e, type: 3}
+  - {fileID: -5052006774851678219, guid: 93f8fa42c55c648ab826f6aa097d57b9, type: 3}
+  - {fileID: 2408242538482741392, guid: d40a9fb5917fe413bab3485919d96c60, type: 3}
+  - {fileID: -3200317836158440562, guid: 70415681428a949789bd7f5227d10a96, type: 3}
+  - {fileID: 7198614646422641523, guid: 156107338363246bfaaeb2994572d8f4, type: 3}
+  - {fileID: -8203027008768504748, guid: 8fc4eab6a187d4427924cf8fed326051, type: 3}
+  - {fileID: 9182913497519869138, guid: b6eb5cea610da44fdbcb6bc9e7a4c1e7, type: 3}
+  - {fileID: -8311353824870963485, guid: 68a145ed944834d9581853d8f725b028, type: 3}
   rendererDelegate: {fileID: 612787882}
   useSharedMaterial: 1
   doLoopAnimation: 1
   StartOnAwake: 0
-  AnimationSpeed: 55
+  AnimationSpeed: 80
   delayBetweenLoop: 0
   currentAnimationState: 0
 --- !u!1 &613528844
@@ -35899,7 +35923,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -37100,7 +37124,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -40837,7 +40861,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -42631,7 +42655,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -43263,7 +43287,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -43898,7 +43922,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -44021,7 +44045,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -46472,7 +46496,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -49195,7 +49219,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -51673,7 +51697,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -51826,7 +51850,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -56686,7 +56710,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -56764,7 +56788,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -57438,7 +57462,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -60324,7 +60348,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -60406,7 +60430,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -4372624254609052858, guid: 94ee2dd7c6e704983a3e70d12b224867, type: 3}
+  m_Sprite: {fileID: 7414780900909663031, guid: 5ab960e0ca41d4b128a0891cd681b87e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -60437,65 +60461,86 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ImageAnimation
   textureArray:
-  - {fileID: -4372624254609052858, guid: 94ee2dd7c6e704983a3e70d12b224867, type: 3}
-  - {fileID: 7997432699191109575, guid: 40bfad268e2bd4f56b61f5752b79c2e9, type: 3}
-  - {fileID: -8343616523384197460, guid: 6c3efda33f5bd4e6ab2a539e25f23221, type: 3}
-  - {fileID: -2995514145059268212, guid: ca8c6df13ab1f49f9a2e07e16301b2e0, type: 3}
-  - {fileID: 1208877888485038435, guid: 28d7f29bb63534d609bdbfb68fa78ad9, type: 3}
-  - {fileID: -1477540220161492024, guid: 039a349ecd3be47e1ad0f553f30df620, type: 3}
-  - {fileID: -1182675271135664273, guid: bdc17f7c243164c3fbdae5866fef890f, type: 3}
-  - {fileID: -4122754169383246658, guid: 3924338a55270408493a2410882b5d25, type: 3}
-  - {fileID: -7489378106739732005, guid: 7df7c439a3b504c0d8efcc18c11572e7, type: 3}
-  - {fileID: -555395039616143064, guid: 5f518aeb18b6c4537b4f01710ea0fdfa, type: 3}
-  - {fileID: -8738184947433634826, guid: 85b6dc5f6944a44eda8d366506c646d7, type: 3}
-  - {fileID: 2054704907923882413, guid: c432b03916bf34bdf9d8f868586f8396, type: 3}
-  - {fileID: -9179486092265926860, guid: 0d77265b6dd9043559aa986a3309f444, type: 3}
-  - {fileID: 8265923339843346863, guid: 0269d98344d834c379fabf11db7ef791, type: 3}
-  - {fileID: -5164047278286698229, guid: 98ae66f1b00044f3cb02792d945c3747, type: 3}
-  - {fileID: 5312494437057803393, guid: 86c6cb57f359c46d8826c46e5cc00596, type: 3}
-  - {fileID: -892511308697627950, guid: 0491cfec0ab23423e8b5119574cf59c1, type: 3}
-  - {fileID: -2142623269315767668, guid: 8f5f4c1b216804d699e79e9bc39a3f4a, type: 3}
-  - {fileID: 1654735971490548744, guid: fd396f825f0f94fb080f2cae63a90071, type: 3}
-  - {fileID: -7090261854097043058, guid: 50fd0956b974042e486b7c7bcbcf3405, type: 3}
-  - {fileID: 4252008019115461645, guid: a947c2008221c453cb8381c15b5d3bbd, type: 3}
-  - {fileID: -4570698600611320690, guid: a11c562d5697f47789c5f81e0e96184b, type: 3}
-  - {fileID: 5740295803374261178, guid: 0a68e3f73dd5f43d3b7bdc4e52835e5f, type: 3}
-  - {fileID: -5529756633599317283, guid: a9031c8f5ee124b8dae46a449de238ed, type: 3}
-  - {fileID: 7621696602323916792, guid: 13df52a20744247b89e51063834e11bf, type: 3}
-  - {fileID: 8620009346379958107, guid: 43b859b480d8d4a679e1a436d732acb1, type: 3}
-  - {fileID: -5015754452363712296, guid: b7467ac7ed1274d38baa32e62bf5d90f, type: 3}
-  - {fileID: -6215381738628483737, guid: 4c173f7e6168f449ea843d455bda0fd7, type: 3}
-  - {fileID: 1469825918871832374, guid: a0a0d76cbf4614a8bb34b520eda791c0, type: 3}
-  - {fileID: -585797787566148186, guid: 46ef2d1c0657f4dbcb5965927b8c923b, type: 3}
-  - {fileID: -5779473170833635948, guid: e40d1735a2028422b944cddc379e2ad3, type: 3}
-  - {fileID: -4745700778245448934, guid: a5e7e7b4537c34902b3d289e125dde75, type: 3}
-  - {fileID: -8593082347987581889, guid: 3725cc9dcef6c49139e4b3b7d5879290, type: 3}
-  - {fileID: 7279034064796797987, guid: e797d020d5dae471eb519090b4f67e21, type: 3}
-  - {fileID: 5109937931348126703, guid: a199bc91f6db542d7aa529d6ad4ae581, type: 3}
-  - {fileID: -7693309525131005777, guid: 94148384bc7bc41c9acb7599e6b640bf, type: 3}
-  - {fileID: -5413589639616378229, guid: e9b63e55e77914b4eb70ed4652869d3b, type: 3}
-  - {fileID: 1473039980365184977, guid: 00e82d91c12e54285be642f1d02eb4cc, type: 3}
-  - {fileID: 4282749860291239915, guid: a8c38eff7cb01420a960716b98e7d67c, type: 3}
-  - {fileID: -5659375702289444712, guid: 74203879273b04b4d849c0845585df33, type: 3}
-  - {fileID: -1582647685629418111, guid: 7366cdb802d9a4a43b14fbd27b50cb1e, type: 3}
-  - {fileID: -3141341007684609229, guid: f6560387d109245068c30a9575c156f6, type: 3}
-  - {fileID: -5541731246806109416, guid: 610bc8abc03b14393a719fbb73720a1e, type: 3}
-  - {fileID: 66155548325089173, guid: f1ad759cb7d034cd3aa72729f26f5fdb, type: 3}
-  - {fileID: -4175569928217236743, guid: 5858351652919440d8cd64e493575baf, type: 3}
-  - {fileID: -1223482172508738223, guid: d57ac7f855a2c4394b09141f0aaeb55a, type: 3}
-  - {fileID: -615396371841451956, guid: 838c0bce0f33c4bd0b91b389b0104ef1, type: 3}
-  - {fileID: 3791512366901585506, guid: 15d386bfa90044ed3a1d4272903ed147, type: 3}
-  - {fileID: -2909741403609026410, guid: edff53d4996594726b2fa318e84e5696, type: 3}
-  - {fileID: -4414915310843758120, guid: 1c35a9020f6894b71a99696548816093, type: 3}
-  - {fileID: 3403346343346383431, guid: b786042a8fac44bd5b8680a053defdf3, type: 3}
-  - {fileID: 5893887000244327198, guid: d7af00a2c8b9c4869835bc85b048e558, type: 3}
-  - {fileID: -561288869884406316, guid: 7dce1ea56d9a840199434815b245ac54, type: 3}
-  - {fileID: -2303815145882107285, guid: 0f4d359e9db644354a42f3ed08df6411, type: 3}
+  - {fileID: 7414780900909663031, guid: 5ab960e0ca41d4b128a0891cd681b87e, type: 3}
+  - {fileID: 3693124225142112988, guid: fabcbcfb012914a9285c823494abf2ac, type: 3}
+  - {fileID: -7290322545451243515, guid: 5bf2f25c77917473187834abc3ec6363, type: 3}
+  - {fileID: 6947001685742853431, guid: 47065eac71ccf455aa74997fffa7d38f, type: 3}
+  - {fileID: 836407214219289698, guid: cdd5317c1f54b44a9b87576a5ddd69fa, type: 3}
+  - {fileID: -8033019578499366621, guid: 4e4ed988cf9f54f1ebf3aa498411f901, type: 3}
+  - {fileID: 1558671338575612674, guid: d4c3ccb785591456da37db3ac82c5ec8, type: 3}
+  - {fileID: 8320816021194960794, guid: d5c3aabc671b346299b69029e6985338, type: 3}
+  - {fileID: 6491707579430685500, guid: 89b26f7de7b9949268f85588fdb4f9a6, type: 3}
+  - {fileID: 262312126661908233, guid: 8001153854b974d419f68b7d75d96c2c, type: 3}
+  - {fileID: 1203584184189291670, guid: e002a604266ed438b86d1a859e3655c6, type: 3}
+  - {fileID: -8566676911993263254, guid: 5d454a8cd4020497ea2d902ebc07e90c, type: 3}
+  - {fileID: -2122816730777738163, guid: 2507a38a9b5d44f91b3aec4d6171fcb3, type: 3}
+  - {fileID: 8978634346362782825, guid: c618658180a404cd0b7099bb3d166742, type: 3}
+  - {fileID: 479627481335741373, guid: 18763bcdb397446359f024adf60d4c1b, type: 3}
+  - {fileID: -3911260464178530126, guid: 258012870d9a94d08a6da3d3efb4cb49, type: 3}
+  - {fileID: -6652397323808671691, guid: 85d4ccce23dfd4d229a2f3ed98d9e0cb, type: 3}
+  - {fileID: 2402049960652643742, guid: cfc68bdb21cd4497d936cb103417c919, type: 3}
+  - {fileID: 3300896545196530147, guid: be855a570487d4a3f84ada6f0b3cfc41, type: 3}
+  - {fileID: -8714692308713651285, guid: 07c3b5675ec3a46ffac2f32b72e0836e, type: 3}
+  - {fileID: -8816611663932012941, guid: 2a0ffe5de7ea4499e88a3fdfe8361b85, type: 3}
+  - {fileID: -9156791016282795978, guid: a72a9a550c2624264b38e16e9801ef9b, type: 3}
+  - {fileID: 5855710122569494838, guid: 94ae24f564e2a471289407c73cf0d45e, type: 3}
+  - {fileID: 4175045566986861858, guid: 0a264def7748b4f379396c23ff67f189, type: 3}
+  - {fileID: 5031731673489012478, guid: 92e4fcceb092c4c9b9d2d32fd089e5c4, type: 3}
+  - {fileID: -8768161780073105741, guid: 9e4a8abb7634f453fb67ea58ca4090ff, type: 3}
+  - {fileID: -2245827787570192334, guid: 971e45eb9725c4f23b8378cb1d96c289, type: 3}
+  - {fileID: -3771021972843032427, guid: 5db2a4d1a996a4b93940e4e5cfd3e1d7, type: 3}
+  - {fileID: 3226329991308732270, guid: a3accd24a7eca4459bfe3f5c6eb166df, type: 3}
+  - {fileID: -870947809676632149, guid: 0f23cac10c7ff4a91ba97f7004a54cf8, type: 3}
+  - {fileID: 5013273505811166777, guid: d74b34b46982b41ba92143fcc0a0eb57, type: 3}
+  - {fileID: 5888599353655116421, guid: f0c1d02be5de44a6f9f43b334d496f98, type: 3}
+  - {fileID: 6251114012001333569, guid: 9d402094fae444e2188524e9a0420896, type: 3}
+  - {fileID: 3523489671552181564, guid: 5a1e81a4933634e0bbc40869a9ed7928, type: 3}
+  - {fileID: 9190129957331734766, guid: baab7ca1a25a340009f6ba1d6edd7904, type: 3}
+  - {fileID: -142436114197255604, guid: ce822adcc210245b89095b743188206b, type: 3}
+  - {fileID: 4052306868667726737, guid: 88ab28aeb62ca49abb16361da15f3a7b, type: 3}
+  - {fileID: 5757089355452734003, guid: 1f0fcf1d86f34431982c3f15d19b303f, type: 3}
+  - {fileID: 8034114805741989608, guid: 6cf4f1ecf6fe84a6db25d66479edf630, type: 3}
+  - {fileID: -3034391890979260240, guid: 17f954710b33b47a0a0f9a69c2ff7c9b, type: 3}
+  - {fileID: -2404847138454205263, guid: 365c02fddfada4e328f449f07b993f1e, type: 3}
+  - {fileID: -7616872493170009592, guid: 0152c86522568428ba8ab417c8baf687, type: 3}
+  - {fileID: -4172156332037917004, guid: 7a08a66adbab4436ba5500113b6a756f, type: 3}
+  - {fileID: 2366610264228455301, guid: 806b76513788245eea80d43aefe455ef, type: 3}
+  - {fileID: -5449049337628624013, guid: 594eacde4ec5b42a99743547430064a8, type: 3}
+  - {fileID: 6866693894268933594, guid: 177574d18583244c69ba3abd3bb8c241, type: 3}
+  - {fileID: -4601053649349454026, guid: a09b3fd1297054a4f893683775a62ffa, type: 3}
+  - {fileID: 4515968655446712652, guid: 7d7d2051f790c460e91725aadbbad6d0, type: 3}
+  - {fileID: -6025435517224864010, guid: 0df3c8ceebb994b3b94d51ef12361a13, type: 3}
+  - {fileID: 4163291330580921787, guid: d87f04e464ae14c9c8ad62e550537e3f, type: 3}
+  - {fileID: 2589766445529912280, guid: 71f421b1e2f4c4dbebcbb1529ff028de, type: 3}
+  - {fileID: 3588118896092795617, guid: 59a51a52154d441fa90359d35cd37f7f, type: 3}
+  - {fileID: -4314227096719123919, guid: d01e9a30c5d644a15b8e886e2a2640b6, type: 3}
+  - {fileID: -7064809335458464984, guid: e54a1a1f3f3ee4b8d99d0983239663bc, type: 3}
+  - {fileID: -3076715072997083698, guid: 4b94fe47d131049458a37d85d0432838, type: 3}
+  - {fileID: -5274800830245576375, guid: ca645757bbc824cf5bd7f1cafd065620, type: 3}
+  - {fileID: -258316509554876470, guid: ca751ff182e6643d3a79ae9c9f755137, type: 3}
+  - {fileID: -446158967237955162, guid: 81c2c0d5e40934be4a573a32213e50e2, type: 3}
+  - {fileID: -1756753271836742829, guid: 7b162eeebeece4fff9514874b5662461, type: 3}
+  - {fileID: 7195333760166176761, guid: 7493658916e234e59a5a3c3acaefefe1, type: 3}
+  - {fileID: 7241743926919812602, guid: d86fc5a6c8dc14388af48c3d984a6f5b, type: 3}
+  - {fileID: 5238716965881823199, guid: bd3c9baee69664ce08797ca05ba28f5f, type: 3}
+  - {fileID: -4746757675336814485, guid: 677484b311b23469c9b948dd1256cf55, type: 3}
+  - {fileID: 4544763880049288018, guid: 2fd176074471849ce98d1152b7d2f820, type: 3}
+  - {fileID: 4417925597240448676, guid: 308d8df9df1734da6ace949abae64bbd, type: 3}
+  - {fileID: 8589680762125528616, guid: b6323ae660e0f41d0b2a541a0947d049, type: 3}
+  - {fileID: -529978061325504730, guid: 3e1c3ba32544544b392e8bdfb039a52a, type: 3}
+  - {fileID: -8429750482336872666, guid: 6cb167db88b014cb386fbd966088955a, type: 3}
+  - {fileID: 8839560847200194865, guid: 5f6ad217e673449668bc0a9e1d83a0b6, type: 3}
+  - {fileID: 1656147236378454648, guid: 6b1a1537d21be4271b0e014785bd61a2, type: 3}
+  - {fileID: 1166414410279015281, guid: 231de9dc627e442949f9a7fa5e28a77a, type: 3}
+  - {fileID: 4819018173886307100, guid: 35cda49c2c68a4d2080c0c91f95236b2, type: 3}
+  - {fileID: 3988356082630402411, guid: 02d4d0341fe8a4ce3be8de65e1bebe7b, type: 3}
+  - {fileID: 6033141500827088746, guid: ab994ae4c6fd04388814cc28cd0fdd10, type: 3}
+  - {fileID: -3969067410929912748, guid: 88472eb42830b4f129a5e2d3f95d50b9, type: 3}
   rendererDelegate: {fileID: 1228590866}
   useSharedMaterial: 1
   doLoopAnimation: 1
   StartOnAwake: 0
-  AnimationSpeed: 55
+  AnimationSpeed: 90
   delayBetweenLoop: 0
   currentAnimationState: 0
 --- !u!1 &1229327642
@@ -64814,7 +64859,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -68109,7 +68154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -69286,7 +69331,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -79858,7 +79903,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77a48a0a7ad3e416bbec0af059204b41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SocketIOManager
-  TestToken: 3ca2ff0264634d06b7fb11921c14b4c8
+  TestToken: 6189bbec032f4a24a0aa5f9c916c0241
   slotManager: {fileID: 67154276}
   _uiManager: {fileID: 65615876}
   JSManager: {fileID: 977003592}
@@ -86698,7 +86743,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -87399,7 +87444,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -87993,7 +88038,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -91305,7 +91350,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -91610,7 +91655,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -95699,7 +95744,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -99812,7 +99857,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:

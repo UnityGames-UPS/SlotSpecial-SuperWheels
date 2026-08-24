@@ -6,12 +6,20 @@ internal class AudioController : MonoBehaviour
     [SerializeField] private AudioSource bgMusicSource;
     [SerializeField] private AudioSource gameSoundSource;
 
+    // Dedicated source for the rocket background loop — added at runtime (see Awake) on this same
+    // GameObject, so it can run for the whole rocket animation without being cut off by one-shot
+    // SFX on gameSoundSource (wheel tick/stop, bonus win, etc.).
+    private AudioSource rocketBgSource;
+
     [Header("Background")]
     [SerializeField] private AudioClip bgMusic; // bg .mp3
 
-    [Header("Bonus Wheel (no dedicated clip yet — leave unassigned to stay silent)")]
-    [SerializeField] private AudioClip WheelArrowTick;
-    [SerializeField] private AudioClip WheelArrowStop;
+    [Header("Bonus Wheel")]
+    [SerializeField] private AudioClip WheelArrowTick;      // wheelSpinning.wav
+    [SerializeField] private AudioClip WheelArrowStop;      // wheel stop.mp3
+    [SerializeField] private AudioClip bonusWheelTrigger;   // BonusWheelYTrigger.mp3
+    [SerializeField] private AudioClip bonusWin;            // BonusWin.mp3
+    [SerializeField] private AudioClip rocketBackground;    // RocketBG.mp3 — loops for the whole rocket animation, not per-rocket
 
     [Header("Reel Sounds")]
     [SerializeField] private AudioClip reelSpinning;   // spinning.mp3
@@ -53,6 +61,10 @@ internal class AudioController : MonoBehaviour
     {
         _musicVolume = PlayerPrefs.GetFloat(PrefKeyMusicVol, 0.5f);
         _sfxVolume = PlayerPrefs.GetFloat(PrefKeySfxVol, 1.0f);
+
+        rocketBgSource = gameObject.AddComponent<AudioSource>();
+        rocketBgSource.loop = true;
+        rocketBgSource.playOnAwake = false;
     }
 
     internal void SetMusicVolume(float volume)
@@ -69,12 +81,14 @@ internal class AudioController : MonoBehaviour
         PlayerPrefs.SetFloat(PrefKeySfxVol, _sfxVolume);
         PlayerPrefs.Save();
         if (gameSoundSource) gameSoundSource.volume = _sfxVolume;
+        if (rocketBgSource) rocketBgSource.volume = _sfxVolume;
     }
 
     private void Start()
     {
         if (bgMusicSource) bgMusicSource.volume = _musicVolume;
         if (gameSoundSource) gameSoundSource.volume = _sfxVolume;
+        if (rocketBgSource) rocketBgSource.volume = _sfxVolume;
 
         PlayBackground();
     }
@@ -102,6 +116,35 @@ internal class AudioController : MonoBehaviour
     internal void PlayWheelArrowStop(bool loop)
     {
         PlayGame(WheelArrowStop, loop);
+    }
+
+    internal void PlayBonusWheelTrigger()
+    {
+        PlayGame(bonusWheelTrigger, false);
+    }
+
+    internal void PlayBonusWin()
+    {
+        PlayGame(bonusWin, false);
+    }
+
+    // Loops for the whole rocket animation (start-to-stop of the bonus wheel's rocket spawner),
+    // not per individual rocket — uses its own AudioSource so it isn't cut off by gameSoundSource
+    // one-shots (wheel tick/stop, bonus win, etc.) playing at the same time.
+    internal void PlayRocketBackground()
+    {
+        if (!rocketBackground || rocketBgSource == null) return;
+
+        rocketBgSource.clip = rocketBackground;
+        rocketBgSource.loop = true;
+        if (!rocketBgSource.isPlaying)
+            rocketBgSource.Play();
+    }
+
+    internal void StopRocketBackground()
+    {
+        if (rocketBgSource == null) return;
+        rocketBgSource.Stop();
     }
 
     internal void PlayReelSpinning(bool loop)
@@ -191,7 +234,7 @@ internal class AudioController : MonoBehaviour
         if (forceMute == isForceMuted) return;
         isForceMuted = forceMute;
 
-        AudioSource[] sources = { bgMusicSource, gameSoundSource };
+        AudioSource[] sources = { bgMusicSource, gameSoundSource, rocketBgSource };
         foreach (var source in sources)
         {
             if (source == null) continue;

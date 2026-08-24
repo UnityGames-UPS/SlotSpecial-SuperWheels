@@ -427,6 +427,7 @@ public class SlotManager : MonoBehaviour
                 }
             }
             yield return new WaitForSeconds(3f);
+            audioController.PlayBonusWheelTrigger();
             uiManager.ShowUniversalWinPopup(UIManager.WinPopupType.BonusTrigger, 0, 0, () => { bonusManager.BonusWheel(); });
 
             yield return new WaitUntil(() => !bonusManager.isBonusFinished);

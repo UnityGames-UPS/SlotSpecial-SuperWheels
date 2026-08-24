@@ -206,8 +206,14 @@ public class BonusManager : MonoBehaviour
         if (finalSpin != null)
         {
             bool popupClosed = false;
+            audioController.PlayBonusWin();
             uiManager.ShowUniversalWinPopup(UIManager.WinPopupType.BonusComplete, bonusData.totalAwardValue, 0,
-                () => { popupClosed = true; }, finalSpin.multiplier);
+                () =>
+                {
+                    uiManager.currentBalance += bonusData.totalAwardValue;
+                    uiManager.UpdateBalance(uiManager.currentBalance, true);
+                    popupClosed = true;
+                }, finalSpin.multiplier);
 
             yield return new WaitUntil(() => popupClosed);
         }
@@ -277,6 +283,8 @@ public class BonusManager : MonoBehaviour
         activeRocketsLandscape.Clear();
         activeRocketsPortrait.Clear();
 
+        audioController.PlayRocketBackground();
+
         if (rocketPrefab != null && rocketAnimationObject != null)
         {
             rocketSpawnLoopLandscape = StartCoroutine(RocketSpawnLoop(rocketAnimationObject, activeRocketsLandscape));
@@ -312,6 +320,8 @@ public class BonusManager : MonoBehaviour
     // once the slot/UI canvases fade back in.
     private void StopRocketAnimation()
     {
+        audioController.StopRocketBackground();
+
         if (rocketSpawnLoopLandscape != null)
         {
             StopCoroutine(rocketSpawnLoopLandscape);
