@@ -11,13 +11,11 @@ public class BonusManager : MonoBehaviour
     [SerializeField] private GameObject slotGameObject;
     [SerializeField] private GameObject uiGameObject;
     [SerializeField] private GameObject bonusWheelPanel;
-    [SerializeField] private Button WheelStartButton;
     [SerializeField] private RectTransform rocketAnimationObject;
 
     [Header("Scene Fade Refs Portrait")]
     [SerializeField] private GameObject uiGameObjectPortrait;
     [SerializeField] private GameObject bonusWheelPanelPortrait;
-    [SerializeField] private Button WheelStartButtonPortrait;
     [SerializeField] private RectTransform rocketAnimationObjectPortrait;
 
     [Header("Wheels (0 = inner/wheel1, 1 = middle/wheel2, 2 = outer/wheel3)")]
@@ -65,33 +63,17 @@ public class BonusManager : MonoBehaviour
         public List<TMP_Text> segmentTexts;
     }
 
-    private void Awake()
-    {
-        if (WheelStartButton) WheelStartButton.onClick.AddListener(OnWheelStartButtonClicked);
-        if (WheelStartButtonPortrait) WheelStartButtonPortrait.onClick.AddListener(OnWheelStartButtonClicked);
-    }
-
-    private void OnWheelStartButtonClicked()
+    // Called by UIManager's shared Start button dispatcher — the button (and its onClick
+    // listener) live on UIManager since it's the same physical button used by the
+    // free-spin-trigger flow.
+    internal void RequestWheelStart()
     {
         if (wheelStartRequested) return;
 
-        if (audioController != null) audioController.PlayUIButton(false);
         // Keep it visible but non-interactable — it shares its screen position with the
         // universal win popup's Take button, so it's only hidden once that popup is about to show.
-        SetWheelStartButtonInteractable(false);
+        uiManager.SetStartButtonInteractable(false);
         wheelStartRequested = true;
-    }
-
-    private void SetWheelStartButtonActive(bool active)
-    {
-        if (WheelStartButton) WheelStartButton.gameObject.SetActive(active);
-        if (WheelStartButtonPortrait) WheelStartButtonPortrait.gameObject.SetActive(active);
-    }
-
-    private void SetWheelStartButtonInteractable(bool interactable)
-    {
-        if (WheelStartButton) WheelStartButton.interactable = interactable;
-        if (WheelStartButtonPortrait) WheelStartButtonPortrait.interactable = interactable;
     }
 
     internal void IntializeBonusWheelValue()
@@ -157,15 +139,19 @@ public class BonusManager : MonoBehaviour
         FadeCanvasGroup(uiGameObject, 0f, fadeDuration);
         FadeCanvasGroup(uiGameObjectPortrait, 0f, fadeDuration);
 
+        // Show it right away (disabled) so it's already on screen for the fade-in, rather
+        // than popping in only once the wheel is ready.
+        wheelStartRequested = false;
+        uiManager.ShowStartButton(false);
+
         // Wait for both bonus wheel panels to finish fading in before continuing.
         yield return FadeBothCanvasGroups(bonusWheelPanel, bonusWheelPanelPortrait, 1f, fadeDuration);
+
+        uiManager.SetStartButtonInteractable(true);
 
         StartRocketAnimation();
 
         // Wheel only starts spinning once the player presses the start button.
-        wheelStartRequested = false;
-        SetWheelStartButtonInteractable(true);
-        SetWheelStartButtonActive(true);
         yield return new WaitUntil(() => wheelStartRequested);
 
         Spin finalSpin = null;
@@ -208,7 +194,7 @@ public class BonusManager : MonoBehaviour
             bool popupClosed = false;
             audioController.PlayBonusWin();
             // The Take button is about to appear in the same screen slot as the start button.
-            SetWheelStartButtonActive(false);
+            uiManager.HideStartButton();
             uiManager.ShowUniversalWinPopup(UIManager.WinPopupType.BonusComplete, bonusData.totalAwardValue, 0,
                 () =>
                 {
@@ -226,12 +212,16 @@ public class BonusManager : MonoBehaviour
 
         yield return FadeBothCanvasGroups(bonusWheelPanel, bonusWheelPanelPortrait, 0f, fadeDuration);
 
-        SetWheelStartButtonActive(false);
+        uiManager.HideStartButton();
 
         StopRocketAnimation();
 
         isBonusFinished = true;
-        uiManager.SetSpinButtonInteractable(true);
+        // Don't blindly re-enable spinButton here — if a free-spin round is still chaining,
+        // SlotManager's own post-bonus logic (ShowFreeSpinBetweenSpinsPlaceholder / SetSpinButtonReady)
+        // is what decides the correct button state once it resumes from waiting on isBonusFinished.
+        // Setting it true unconditionally here left a brief window where spin was clickable
+        // mid-free-spin-chain.
     }
 
     private int RingToWheelIndex(string ring)

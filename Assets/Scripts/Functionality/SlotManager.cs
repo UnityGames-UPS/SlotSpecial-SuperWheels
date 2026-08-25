@@ -55,8 +55,10 @@ public class SlotManager : MonoBehaviour
     private bool _stopSpinToggle;
     private float _spinDelay = 0.3f;
     private bool _isTurboOn;
+    internal bool IsTurboOn => _isTurboOn;
     private bool isTweening = false;
     private double _freeSpinsRoundWinTotal = 0;
+    internal double FreeSpinsRoundWinTotal => _freeSpinsRoundWinTotal;
     // True from the moment the FreeSpinComplete popup is shown until its Take button is pressed.
     // Autospin must not start the next round while this is true.
     internal bool isFreeSpinCompletePopupPending = false;
@@ -166,6 +168,10 @@ public class SlotManager : MonoBehaviour
         {
             StartSlots(_isAutoSpin);
             yield return new WaitUntil(() => !_isSpinning);
+            // Free spins (once triggered) chain themselves automatically inside TweenRoutine, and
+            // briefly flip _isSpinning false between each chained spin — wait out the whole free-spin
+            // bonus round (isInFreeSpins) so it doesn't count as multiple autospin rounds.
+            yield return new WaitUntil(() => !isInFreeSpins);
             // Don't start the next round while the free-spins-complete popup is still waiting for Take.
             yield return new WaitUntil(() => !isFreeSpinCompletePopupPending);
 
@@ -232,6 +238,9 @@ public class SlotManager : MonoBehaviour
     private IEnumerator TweenRoutine()
     {
         _isSpinning = true;
+
+        // No-op unless the between-chained-free-spins placeholder was showing.
+        uiManager.HideFreeSpinBetweenSpinsPlaceholder();
 
         StopWinLinesLoop();
 
@@ -330,6 +339,10 @@ public class SlotManager : MonoBehaviour
         yield return _alltweens[^1].WaitForCompletion();
         KillAllTweens();
 
+        // Reels have fully stopped — nothing left to instant-stop, so the stop button goes away
+        // right here rather than staying visible through any heatup/free-spin/wheel-trigger animations.
+        uiManager.HideStopButtonAfterReelsStopped();
+
         // Reels have fully stopped now — safe to reveal the updated free-spin count/total-win.
         if (isInFreeSpins)
         {
@@ -343,6 +356,10 @@ public class SlotManager : MonoBehaviour
         {
             audioController.PlayHeatEmUp();
             double heatUpWin = socketManager.resultData.payload.heatEmUpWin;
+            // ShowWinLineAnimation (below) is the only other place that credits the balance
+            // display, but it only runs when there are line wins — a heatup-only spin (no line
+            // wins) would otherwise never get its balance UI refreshed with this win.
+            uiManager.UpdateBalance(uiManager.currentBalance + heatUpWin, true);
             if (isInFreeSpins)
             {
                 _freeSpinsRoundWinTotal += heatUpWin;
@@ -400,6 +417,9 @@ public class SlotManager : MonoBehaviour
 
         if (socketManager.resultData.payload.isWheelTriggered)
         {
+            // Don't let autoplay get cancelled mid-trigger-animation.
+            if (_isAutoSpin) uiManager.SetAutoSpinStopButtonInteractable(false);
+
             foreach (var obj in HeatUpFireObjects)
             {
                 obj.gameObject.SetActive(false);
@@ -443,6 +463,7 @@ public class SlotManager : MonoBehaviour
                 }
             }
             yield return new WaitForSeconds(3f);
+            if (_isAutoSpin) uiManager.SetAutoSpinStopButtonInteractable(true);
             audioController.PlayBonusWheelTrigger();
             uiManager.ShowUniversalWinPopup(UIManager.WinPopupType.BonusTrigger, 0, 0, () => { bonusManager.BonusWheel(); });
 
@@ -467,6 +488,12 @@ public class SlotManager : MonoBehaviour
         if (socketManager.resultData.payload.isFreeSpinsTriggered)
         {
             bool wasAlreadyInFreeSpins = isInFreeSpins;
+            // Only reset the round total on the initial trigger — a retrigger while free spins
+            // are already running should keep accumulating, not restart from 0. Reset happens here
+            // (before the trigger popup shows) so the popup can display the correct starting value.
+            if (!wasAlreadyInFreeSpins) _freeSpinsRoundWinTotal = 0;
+            // Don't let autoplay get cancelled mid-trigger-animation.
+            if (_isAutoSpin) uiManager.SetAutoSpinStopButtonInteractable(false);
             audioController.PlayScatterTrigger();
             foreach (var obj in HeatUpFireObjects)
             {
@@ -513,11 +540,9 @@ public class SlotManager : MonoBehaviour
                 }
             }
             yield return new WaitForSeconds(3f);
+            if (_isAutoSpin) uiManager.SetAutoSpinStopButtonInteractable(true);
             uiManager.OnFreeSpinsTriggered(socketManager.resultData.payload.freeSpinsAdded);
             yield return new WaitUntil(() => isInFreeSpins);
-            // Only reset the round total on the initial trigger — a retrigger while free spins
-            // are already running should keep accumulating, not restart from 0.
-            if (!wasAlreadyInFreeSpins) _freeSpinsRoundWinTotal = 0;
         }
 
         _isSpinning = false;
@@ -527,6 +552,7 @@ public class SlotManager : MonoBehaviour
         {
             if (socketManager.resultData.payload.isFreeSpinActive)
             {
+                uiManager.ShowFreeSpinBetweenSpinsPlaceholder();
                 yield return new WaitForSeconds(_spinDelay);
                 StartSlots(true);
             }
@@ -554,22 +580,27 @@ public class SlotManager : MonoBehaviour
 
         if (_isAutoSpin || oneShot || isInFreeSpins)
         {
-            // Autospin: show every winning line once, then let the next spin proceed.
-            yield return LoopWinLines(winLines, oneShot: true);
+            // Autospin/free-spins: flash every winning line together once, then normally let
+            // the next spin proceed — unless autoplay gets stopped while that's showing, in
+            // which case switch to the manual-style per-line loop instead of silently ending.
+            yield return ShowCombinedWinLinesHighlight(winLines);
+
+            if (!oneShot && !isInFreeSpins && !_isAutoSpin)
+            {
+                _winLinesLoopRoutine = StartCoroutine(LoopWinLines(winLines));
+            }
         }
         else
         {
             // Manual spin: keep cycling the winning lines until the player starts the next spin.
-            _winLinesLoopRoutine = StartCoroutine(LoopWinLines(winLines, oneShot: false));
+            _winLinesLoopRoutine = StartCoroutine(LoopWinLines(winLines));
         }
     }
 
-    private IEnumerator LoopWinLines(List<LineWin> winLines, bool oneShot)
+    // Flashes every winning line together once — used both as the whole display for
+    // autospin/free-spins (normally) and as the lead-in before LoopWinLines for manual spins.
+    private IEnumerator ShowCombinedWinLinesHighlight(List<LineWin> winLines)
     {
-        // oneShot = true (autospin): runs through the winning lines exactly once, then returns
-        //           so autospin can proceed to the next spin.
-        // oneShot = false (manual spin): cycles forever. StopWinLinesLoop() (called from
-        //           TweenRoutine the moment a new spin starts) is what actually ends this.
         for (int j = 0; j < SlotOverlays.Count; j++)
         {
             for (int k = 0; k < SlotOverlays[j].slotImages.Count; k++)
@@ -609,15 +640,13 @@ public class SlotManager : MonoBehaviour
         }
 
         yield return new WaitForSeconds(2f);
+    }
 
-        if (oneShot)
-        {
-            // Autospin/free spins: the combined highlight above is enough — skip the
-            // one-line-at-a-time payline/payout breakdown entirely.
-            yield break;
-        }
-
-        do
+    // Cycles the winning lines one at a time, forever. StopWinLinesLoop() (called from
+    // TweenRoutine the moment a new spin starts) is what actually ends this.
+    private IEnumerator LoopWinLines(List<LineWin> winLines)
+    {
+        while (true)
         {
             for (int i = 0; i < winLines.Count; i++)
             {
@@ -685,7 +714,7 @@ public class SlotManager : MonoBehaviour
 
                 yield return new WaitForSeconds(2f);
             }
-        } while (!oneShot);
+        }
     }
 
     /// <summary>

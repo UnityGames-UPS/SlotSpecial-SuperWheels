@@ -71,6 +71,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text uwpBonusWheelMultiplierText;
     [SerializeField] private GameObject uwpBonusSubtitle;
     [SerializeField] private Button WheelStartButton;
+    [SerializeField] private Button WheelStartButtonPortrait;
 
     [SerializeField] private Button uwpTakeButton;
     [SerializeField] private float uwpAutoCloseDelay = 5f;
@@ -471,6 +472,12 @@ public class UIManager : MonoBehaviour
         if (uwpTakeButton) uwpTakeButton.onClick.AddListener(OnUniversalWinTakeButtonClicked);
         if (uwpTakeButtonPortrait) uwpTakeButtonPortrait.onClick.AddListener(OnUniversalWinTakeButtonClicked);
 
+        // Shared by the bonus wheel and the free-spin-trigger flow — same physical button in
+        // the scene. A single listener here dispatches to whichever flow is currently active.
+        if (WheelStartButton) WheelStartButton.onClick.AddListener(OnSharedStartButtonClicked);
+        if (WheelStartButtonPortrait) WheelStartButtonPortrait.onClick.AddListener(OnSharedStartButtonClicked);
+        SetButtonActive(WheelStartButton, WheelStartButtonPortrait, false);
+
         if (normalSpeedButton) normalSpeedButton.onClick.AddListener(() => { SetSpeedMode(SlotManager.SpinSpeed.Turbo); });
         if (turboSpeedButton) turboSpeedButton.onClick.AddListener(() => { SetSpeedMode(SlotManager.SpinSpeed.QuickSpin); });
         if (quickSpeedButton) quickSpeedButton.onClick.AddListener(() => { SetSpeedMode(SlotManager.SpinSpeed.Normal); });
@@ -586,8 +593,20 @@ public class UIManager : MonoBehaviour
         SetBetControlsEnabled(false);
 
         slotManager.StartSlots();
-        SetButtonActive(stopButton, stopButtonPortrait, true);
-        SetButtonActive(spinButton, spinButtonPortrait, false);
+        ShowReelSpinningButton(true);
+    }
+
+    // Which control represents "a reel is currently spinning" depends on spin speed:
+    // normal → stopButton (can instant-stop this reel). Turbo/quick spin → spinButton
+    // instead, disabled — those spins are already near-instant, so there's nothing
+    // meaningful left to stop, and the stop control shouldn't be offered at all.
+    private void ShowReelSpinningButton(bool stopInteractable)
+    {
+        bool useStopButton = !(slotManager != null && slotManager.IsTurboOn);
+        SetButtonActive(stopButton, stopButtonPortrait, useStopButton);
+        SetButtonInteractable(stopButton, stopButtonPortrait, useStopButton && stopInteractable);
+        SetButtonActive(spinButton, spinButtonPortrait, !useStopButton);
+        SetButtonInteractable(spinButton, spinButtonPortrait, false);
     }
 
     public void OnSpinButtonHeld()
@@ -607,21 +626,35 @@ public class UIManager : MonoBehaviour
         audioController.PlayUIButton(false);
         slotManager.RequestInstantStop();
 
-        if (slotManager._isAutoSpin)
+        // During a free-spin round, stop only fast-forwards the current reel — autoplay
+        // (if on) keeps running and resumes normally once free spins end.
+        if (slotManager._isAutoSpin && !slotManager.isInFreeSpins)
         {
             slotManager.StopAutoSpin();
             AutoSpinButtonAnimation(false);
             SetButtonInteractable(autoSpinButton, autoSpinButtonPortrait, false);
         }
 
-        SetButtonInteractable(stopButton, stopButtonPortrait, false);
-        SetButtonActive(stopButton, stopButtonPortrait, true);
-        SetButtonActive(spinButton, spinButtonPortrait, false);
+        ShowReelSpinningButton(false);
     }
 
     internal void OnStopSpinButtonTrigger()
     {
         OnStopButtonPressed();
+    }
+
+    // Called the instant all reels have physically stopped — there's nothing left to
+    // instant-stop, so the button disappears even while post-stop animations (win lines,
+    // heatup, wheel/free-spin trigger) are still playing. spinButton takes its place as a
+    // disabled placeholder in the meantime. SetSpinButtonReady() (or the free-spin
+    // between-spins placeholder) decides what actually shows once those finish.
+    internal void HideStopButtonAfterReelsStopped()
+    {
+        SetButtonInteractable(stopButton, stopButtonPortrait, false);
+        SetButtonActive(stopButton, stopButtonPortrait, false);
+
+        SetButtonActive(spinButton, spinButtonPortrait, true);
+        SetButtonInteractable(spinButton, spinButtonPortrait, false);
     }
 
     internal void SetSpinButtonReady()
@@ -630,8 +663,9 @@ public class UIManager : MonoBehaviour
 
         if (slotManager._isAutoSpin)
         {
-            SetButtonActive(stopButton, stopButtonPortrait, true);
-            SetButtonActive(spinButton, spinButtonPortrait, false);
+            // This state carries through the next autospin round's actual spinning too,
+            // so it needs to respect turbo/quick spin the same as a fresh manual spin does.
+            ShowReelSpinningButton(true);
         }
         else
         {
@@ -657,8 +691,7 @@ public class UIManager : MonoBehaviour
             ToggleAutoSpin();
             if (slotManager._isAutoSpin)
             {
-                SetButtonActive(stopButton, stopButtonPortrait, true);
-                SetButtonActive(spinButton, spinButtonPortrait, false);
+                ShowReelSpinningButton(true);
             }
         }
 
@@ -678,11 +711,16 @@ public class UIManager : MonoBehaviour
         {
             SetButtonInteractable(autoSpinButton, autoSpinButtonPortrait, false);
             slotManager.StopAutoSpin();
-            SetButtonInteractable(stopButton, stopButtonPortrait, false);
-            SetButtonActive(stopButton, stopButtonPortrait, true);
-            SetButtonActive(spinButton, spinButtonPortrait, false);
+            ShowReelSpinningButton(false);
             AutoSpinButtonAnimation(false);
         }
+    }
+
+    // Disabled (still visible) while a free-spin/wheel trigger's symbol animation is
+    // playing, so autoplay can't be cancelled mid-animation.
+    internal void SetAutoSpinStopButtonInteractable(bool interactable)
+    {
+        SetButtonInteractable(autoSpinStopButton, autoSpinStopButtonPortrait, interactable);
     }
 
     internal void UpdateAutoPlayCount()
@@ -806,8 +844,7 @@ public class UIManager : MonoBehaviour
         SetBetControlsEnabled(false);
         AutoSpinButtonAnimation(true);
         slotManager.AutoSpin(rounds);
-        SetButtonActive(stopButton, stopButtonPortrait, true);
-        SetButtonActive(spinButton, spinButtonPortrait, false);
+        ShowReelSpinningButton(true);
         SetButtonActive(autoSpinStopButton, autoSpinStopButtonPortrait, true);
         UpdateAutoPlayCount();
     }
@@ -1050,12 +1087,61 @@ public class UIManager : MonoBehaviour
 
     #endregion
 
+    #region Shared Start Button (bonus wheel + free-spin trigger — same physical button)
+
+    internal void ShowStartButton(bool interactable)
+    {
+        SetButtonActive(WheelStartButton, WheelStartButtonPortrait, true);
+        SetButtonInteractable(WheelStartButton, WheelStartButtonPortrait, interactable);
+    }
+
+    internal void HideStartButton()
+    {
+        SetButtonActive(WheelStartButton, WheelStartButtonPortrait, false);
+    }
+
+    internal void SetStartButtonInteractable(bool interactable)
+    {
+        SetButtonInteractable(WheelStartButton, WheelStartButtonPortrait, interactable);
+    }
+
+    // Dispatches the click to whichever flow currently owns the button — the two flows
+    // never overlap, so exactly one of these is meaningful at any given time.
+    private void OnSharedStartButtonClicked()
+    {
+        audioController.PlayUIButton(false);
+
+        if (bonusManager != null && !bonusManager.isBonusFinished)
+        {
+            bonusManager.RequestWheelStart();
+        }
+        else
+        {
+            OnFreeSpinStartButtonClicked();
+        }
+    }
+
+    #endregion
+
     #region Free Spins Flow
+
+    private int _freeSpinsAwardedPending;
 
     internal void OnFreeSpinsTriggered(int spinsAwarded)
     {
         audioController.PlayFreeSpinsWon();
-        ShowUniversalWinPopup(WinPopupType.FreeSpinTrigger, 0, spinsAwarded, () => StartFreeSpinsSequence(spinsAwarded));
+        _freeSpinsAwardedPending = spinsAwarded;
+        // Shown (disabled) right alongside the trigger popup rather than popping in after —
+        // popup auto-closes itself once its intro animation finishes (no Take button), and this
+        // callback then enables the already-visible start button.
+        ShowStartButton(false);
+        ShowUniversalWinPopup(WinPopupType.FreeSpinTrigger, 0, spinsAwarded, () => SetStartButtonInteractable(true));
+    }
+
+    private void OnFreeSpinStartButtonClicked()
+    {
+        HideStartButton();
+        StartFreeSpinsSequence(_freeSpinsAwardedPending);
     }
 
     private void StartFreeSpinsSequence(int spinsAwarded)
@@ -1067,9 +1153,40 @@ public class UIManager : MonoBehaviour
         // UpdateFreeSpinCount(freeSpinsRemaining--)) doesn't stomp this correct value with stale data.
         slotManager.freeSpinsRemaining = totalSpins;
 
+        // Hidden for the whole free-spin round — cancelling autoplay mid-bonus isn't offered;
+        // SetSpinButtonReady() (called once free spins fully end) restores it if autoplay is still on.
+        SetButtonActive(autoSpinStopButton, autoSpinStopButtonPortrait, false);
+
         if (gameLogoObject) gameLogoObject.SetActive(false);
         UpdateFreeSpinCount(totalSpins);
         UpdateWinDisplay(0);
+    }
+
+    // Shown, disabled, in the gap between every chained free spin (manual or autoplay) —
+    // a visual placeholder only, the next free spin starts itself automatically.
+    internal void ShowFreeSpinBetweenSpinsPlaceholder()
+    {
+        if (slotManager != null && slotManager.IsTurboOn)
+        {
+            // Turbo/quick spin: that gap is too short to be worth swapping the Start button
+            // in and out for — it just reads as a flicker. Keep the same disabled spinButton
+            // used during a turbo spin itself, so nothing visibly changes across the gap.
+            ShowReelSpinningButton(false);
+            return;
+        }
+
+        SetButtonActive(stopButton, stopButtonPortrait, false);
+        SetButtonActive(spinButton, spinButtonPortrait, false);
+        ShowStartButton(false);
+    }
+
+    internal void HideFreeSpinBetweenSpinsPlaceholder()
+    {
+        // Idempotent no-op unless the placeholder was actually showing.
+        HideStartButton();
+        // Each new free spin's stop button must be clickable — nothing else resets this
+        // during free-spin chaining (SetSpinButtonReady() isn't called between free spins).
+        ShowReelSpinningButton(true);
     }
 
     internal void OnFreeSpinsEnded(double serverTotalRoundWin)
@@ -1434,7 +1551,7 @@ public class UIManager : MonoBehaviour
                 break;
         }
 
-        bool showTakeButton = type != WinPopupType.BigWin;
+        bool showTakeButton = type != WinPopupType.BigWin && type != WinPopupType.FreeSpinTrigger;
         SetButtonActive(uwpTakeButton, uwpTakeButtonPortrait, showTakeButton);
 
         OpenPopup(universalWinPopup, universalWinPopupPortrait);
@@ -1447,15 +1564,15 @@ public class UIManager : MonoBehaviour
 
         if (type == WinPopupType.FreeSpinTrigger)
         {
-            SetButtonInteractable(uwpTakeButton, uwpTakeButtonPortrait, true);
-            if (uwpTakeButton) uwpTakeButton.interactable = false;
-            if (uwpTakeButtonPortrait) uwpTakeButtonPortrait.interactable = false;
-
+            // No Take button for this popup — it auto-closes itself once the intro animation finishes.
             if (universalWinPopupRect) universalWinPopupRect.localScale = Vector3.one;
             if (universalWinPopupRectPortrait) universalWinPopupRectPortrait.localScale = Vector3.one * 0.6f;
 
-            if (FreeSpinTotalWinText) FreeSpinTotalWinText.text = FormatAmount(0);
-            if (FreeSpinTotalWinTextPortrait) FreeSpinTotalWinTextPortrait.text = FormatAmount(0);
+            // SlotManager already resets its round total to 0 for a genuine fresh trigger, and
+            // preserves it across a retrigger — mirror whichever it currently holds, don't force 0.
+            string currentFreeSpinTotal = FormatAmount(slotManager != null ? slotManager.FreeSpinsRoundWinTotal : 0);
+            if (FreeSpinTotalWinText) FreeSpinTotalWinText.text = currentFreeSpinTotal;
+            if (FreeSpinTotalWinTextPortrait) FreeSpinTotalWinTextPortrait.text = currentFreeSpinTotal;
 
             uwpFreeSpinIntroSeqLandscape = AnimateFreeSpinTriggerIntro(universalWinPopup, uwpSparkleAnimation, uwpFreeSpinCountText, uwpFreeSpinTextObject, uwpFreeSpinTitle, MainFreeSpinObject, uwpTakeButton);
             uwpFreeSpinIntroSeqPortrait = AnimateFreeSpinTriggerIntro(universalWinPopupPortrait, uwpSparkleAnimationPortrait, uwpFreeSpinCountTextPortrait, uwpFreeSpinObjectPortrait, uwpFreeSpinTitlePortrait, MainFreeSpinObjectPortrait, uwpTakeButtonPortrait);
@@ -1571,8 +1688,10 @@ public class UIManager : MonoBehaviour
         }
         seq.OnComplete(() =>
         {
-            if (takeButton) takeButton.interactable = true;
-            if (uwpAutoCloseCoroutine == null) uwpAutoCloseCoroutine = StartCoroutine(AutoCloseUniversalWinPopup());
+            // No Take button on this popup — close it as soon as the intro finishes.
+            // CloseUniversalWinPopup() is safe to call twice (once from each orientation's
+            // sequence): its stored callback is nulled out after the first invocation.
+            CloseUniversalWinPopup();
         });
 
         return seq;

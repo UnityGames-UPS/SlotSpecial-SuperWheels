@@ -168,7 +168,18 @@ public class OrientationChange : MonoBehaviour
                 scaleH = (float)height / refH;
             }
 
-            float targetMatch = (scaleW <= scaleH) ? 0f : 1f;
+            float targetMatch;
+            if (Mathf.Abs(scaleH - scaleW) < 0.0001f)
+            {
+                targetMatch = 0.5f;
+            }
+            else
+            {
+                float targetScale = Mathf.Min(scaleW, scaleH);
+                float logRatio = Mathf.Log(scaleH / scaleW);
+                targetMatch = Mathf.Log(targetScale / scaleW) / logRatio;
+                targetMatch = Mathf.Clamp01(targetMatch);
+            }
 
             if (matchTween != null && matchTween.IsActive()) matchTween.Kill();
             matchTween = DOTween.To(() => CanvasScaler.matchWidthOrHeight, x => CanvasScaler.matchWidthOrHeight = x, targetMatch, transitionDuration).SetEase(Ease.InOutQuad);

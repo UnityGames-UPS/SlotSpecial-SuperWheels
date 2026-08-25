@@ -73,6 +73,7 @@ internal class AudioController : MonoBehaviour
         PlayerPrefs.SetFloat(PrefKeyMusicVol, _musicVolume);
         PlayerPrefs.Save();
         if (bgMusicSource) bgMusicSource.volume = _musicVolume;
+        MuteBackground(_musicVolume <= 0f);
     }
 
     internal void SetSfxVolume(float volume)
@@ -82,6 +83,7 @@ internal class AudioController : MonoBehaviour
         PlayerPrefs.Save();
         if (gameSoundSource) gameSoundSource.volume = _sfxVolume;
         if (rocketBgSource) rocketBgSource.volume = _sfxVolume;
+        MuteGame(_sfxVolume <= 0f);
     }
 
     private void Start()
@@ -259,7 +261,12 @@ internal class AudioController : MonoBehaviour
     internal void MuteGame(bool mute)
     {
         gameSoundSource.mute = mute;
-        if (isForceMuted) preFocusMuteState[gameSoundSource] = mute;
+        if (rocketBgSource != null) rocketBgSource.mute = mute;
+        if (isForceMuted)
+        {
+            preFocusMuteState[gameSoundSource] = mute;
+            if (rocketBgSource != null) preFocusMuteState[rocketBgSource] = mute;
+        }
     }
 
     private void OnApplicationFocus(bool hasFocus)

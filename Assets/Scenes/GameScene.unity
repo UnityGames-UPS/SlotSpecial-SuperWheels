@@ -2526,7 +2526,8 @@ MonoBehaviour:
   uwpBonusWinText: {fileID: 1445854899}
   uwpBonusWheelMultiplierText: {fileID: 251528229}
   uwpBonusSubtitle: {fileID: 1971922863}
-  WheelStartButton: {fileID: 0}
+  WheelStartButton: {fileID: 2030790027}
+  WheelStartButtonPortrait: {fileID: 925257479}
   uwpTakeButton: {fileID: 1729874833}
   uwpAutoCloseDelay: 7
   uwpFreeSpinGroupScaleDuration: 0.7
@@ -3792,8 +3793,8 @@ RectTransform:
   - {fileID: 173060498}
   - {fileID: 344352411}
   - {fileID: 506386114}
-  - {fileID: 1729874832}
   - {fileID: 2030790026}
+  - {fileID: 1729874832}
   - {fileID: 758464195}
   m_Father: {fileID: 161473517}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -17705,11 +17706,9 @@ MonoBehaviour:
   slotGameObject: {fileID: 749700606}
   uiGameObject: {fileID: 1001633933}
   bonusWheelPanel: {fileID: 472494456}
-  WheelStartButton: {fileID: 2030790027}
   rocketAnimationObject: {fileID: 80496809}
   uiGameObjectPortrait: {fileID: 230101628}
   bonusWheelPanelPortrait: {fileID: 515704795}
-  WheelStartButtonPortrait: {fileID: 925257479}
   rocketAnimationObjectPortrait: {fileID: 1762260217}
   wheelRigs:
   - container: {fileID: 425805787}
@@ -34458,8 +34457,8 @@ RectTransform:
   - {fileID: 598712218}
   - {fileID: 478029393}
   - {fileID: 260543320}
-  - {fileID: 877728122}
   - {fileID: 925257478}
+  - {fileID: 877728122}
   - {fileID: 460680267}
   m_Father: {fileID: 360998097}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -79902,7 +79901,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77a48a0a7ad3e416bbec0af059204b41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SocketIOManager
-  TestToken: 6189bbec032f4a24a0aa5f9c916c0241
+  TestToken: 76b5b0ad843a4ce69fbe4bb6ef87c6ee
   slotManager: {fileID: 67154276}
   _uiManager: {fileID: 65615876}
   JSManager: {fileID: 977003592}
