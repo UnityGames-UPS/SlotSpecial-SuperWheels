@@ -1545,7 +1545,7 @@ public class UIManager : MonoBehaviour
                 SetGameObjectActive(uwpCongratulationsTitle, uwpCongratulationsTitlePortrait, true);
                 SetGameObjectActive(uwpBonusSubtitle, uwpBonusSubtitlePortrait, true);
                 if (uwpBonusWheelMultiplierText) { uwpBonusWheelMultiplierText.gameObject.SetActive(true); uwpBonusWheelMultiplierText.text = "x" + bonusMultiplier.ToString("0.##"); }
-                if (uwpBonusWheelMultiplierTextPortrait) { uwpBonusWheelMultiplierTextPortrait.gameObject.SetActive(true); uwpBonusWheelMultiplierTextPortrait.text = "x" + bonusMultiplier.ToString("0.##"); }
+                if (uwpBonusWheelMultiplierTextPortrait) { uwpBonusWheelMultiplierTextPortrait.gameObject.SetActive(true); uwpBonusWheelMultiplierTextPortrait.text = bonusMultiplier.ToString("0.##"); }
                 if (uwpBonusWinText) uwpBonusWinText.gameObject.SetActive(true);
                 if (uwpBonusWinTextPortrait) uwpBonusWinTextPortrait.gameObject.SetActive(true);
                 break;
