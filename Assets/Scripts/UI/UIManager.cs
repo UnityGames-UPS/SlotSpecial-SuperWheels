@@ -2043,6 +2043,10 @@ public class UIManager : MonoBehaviour
     internal void SetBetButtonsInteractable(bool interactable)
     {
         SetBetControlsEnabled(interactable);
+        // Keep the spin button in lockstep with the bet controls, e.g. after a low-balance
+        // popup reduces the bet back to something affordable, the spin button should also
+        // become pressable again rather than staying stuck disabled.
+        SetSpinButtonInteractable(interactable);
     }
 
     internal void SetSpinButtonInteractable(bool interactable)
